@@ -1,0 +1,13 @@
+#-----------------------------------------------------------
+# Vivado v2021.2 (64-bit)
+# SW Build 3367213 on Tue Oct 19 02:48:09 MDT 2021
+# IP Build 3369179 on Thu Oct 21 08:25:16 MDT 2021
+# Start of session at: Thu Apr 17 00:19:37 2025
+# Process ID: 9536
+# Current directory: J:/vivado/project/ti/jnu2023h/jnu2023h.runs/synth_1
+# Command line: vivado.exe -log data_modulus.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source data_modulus.tcl
+# Log file: J:/vivado/project/ti/jnu2023h/jnu2023h.runs/synth_1/data_modulus.vds
+# Journal file: J:/vivado/project/ti/jnu2023h/jnu2023h.runs/synth_1\vivado.jou
+# Running On: DESKTOP-3921LBV, OS: Windows, CPU Frequency: 2419 MHz, CPU Physical cores: 4, Host memory: 34081 MB
+#-----------------------------------------------------------
+source data_modulus.tcl -notrace

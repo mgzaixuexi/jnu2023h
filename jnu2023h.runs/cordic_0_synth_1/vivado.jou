@@ -1,0 +1,13 @@
+#-----------------------------------------------------------
+# Vivado v2021.2 (64-bit)
+# SW Build 3367213 on Tue Oct 19 02:48:09 MDT 2021
+# IP Build 3369179 on Thu Oct 21 08:25:16 MDT 2021
+# Start of session at: Thu Apr 17 00:18:22 2025
+# Process ID: 27172
+# Current directory: J:/vivado/project/ti/jnu2023h/jnu2023h.runs/cordic_0_synth_1
+# Command line: vivado.exe -log cordic_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source cordic_0.tcl
+# Log file: J:/vivado/project/ti/jnu2023h/jnu2023h.runs/cordic_0_synth_1/cordic_0.vds
+# Journal file: J:/vivado/project/ti/jnu2023h/jnu2023h.runs/cordic_0_synth_1\vivado.jou
+# Running On: DESKTOP-3921LBV, OS: Windows, CPU Frequency: 2419 MHz, CPU Physical cores: 4, Host memory: 34081 MB
+#-----------------------------------------------------------
+source cordic_0.tcl -notrace
