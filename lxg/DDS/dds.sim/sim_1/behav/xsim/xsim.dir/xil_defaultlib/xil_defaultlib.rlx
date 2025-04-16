@@ -1,0 +1,12 @@
+0.7
+2020.2
+Nov 18 2020
+09:47:47
+E:/FPGA/DDS/dds.gen/sources_1/ip/clk_wiz_0/clk_wiz_0.v,1744812322,verilog,,E:/FPGA/DDS/dds.srcs/sources_1/new/da_wave_send.v,,clk_wiz_0,,,../../../../dds.gen/sources_1/ip/clk_wiz_0,,,,,
+E:/FPGA/DDS/dds.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_clk_wiz.v,1744812321,verilog,,E:/FPGA/DDS/dds.gen/sources_1/ip/clk_wiz_0/clk_wiz_0.v,,clk_wiz_0_clk_wiz,,,../../../../dds.gen/sources_1/ip/clk_wiz_0,,,,,
+E:/FPGA/DDS/dds.gen/sources_1/ip/rom_200x8b/sim/rom_200x8b.v,1744819606,verilog,,E:/FPGA/DDS/dds.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_clk_wiz.v,,rom_200x8b,,,../../../../dds.gen/sources_1/ip/clk_wiz_0,,,,,
+E:/FPGA/DDS/dds.sim/sim_1/behav/xsim/glbl.v,1605673889,verilog,,,,glbl,,,,,,,,
+E:/FPGA/DDS/dds.srcs/sim_1/new/tb_dds.v,1744820615,verilog,,,,tb_dds,,,../../../../dds.gen/sources_1/ip/clk_wiz_0,,,,,
+E:/FPGA/DDS/dds.srcs/sources_1/new/da_wave_send.v,1744818441,verilog,,E:/FPGA/DDS/dds.srcs/sources_1/new/dds.v,,da_wave_send,,,../../../../dds.gen/sources_1/ip/clk_wiz_0,,,,,
+E:/FPGA/DDS/dds.srcs/sources_1/new/dds.v,1744819834,verilog,,E:/FPGA/DDS/dds.srcs/sources_1/new/key_debounce.v,,dds,,,../../../../dds.gen/sources_1/ip/clk_wiz_0,,,,,
+E:/FPGA/DDS/dds.srcs/sources_1/new/key_debounce.v,1744816273,verilog,,E:/FPGA/DDS/dds.srcs/sim_1/new/tb_dds.v,,key_debounce,,,../../../../dds.gen/sources_1/ip/clk_wiz_0,,,,,
