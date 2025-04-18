@@ -1,0 +1,2 @@
+rom_1000x8b.v,verilog,xil_defaultlib,../../../../dds.gen/sources_1/ip/rom_1000x8b/sim/rom_1000x8b.v,
+glbl.v,Verilog,xil_defaultlib,glbl.v

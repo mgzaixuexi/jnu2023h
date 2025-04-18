@@ -4,7 +4,8 @@ Running: E:/Xilinx/Vivado/2020.2/bin/unwrapped/win64.o/xelab.exe -wto 75635855de
 Using 2 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer
-WARNING: [VRFC 10-3091] actual bit length 8 differs from formal bit length 9 for port 'rd_addr' [E:/FPGA/DDS/dds.srcs/sources_1/new/dds.v:100]
+WARNING: [VRFC 10-3091] actual bit length 8 differs from formal bit length 5 for port 'freq_select' [E:/FPGA/DDS/dds.srcs/sources_1/new/dds.v:93]
+WARNING: [VRFC 10-3091] actual bit length 8 differs from formal bit length 5 for port 'freq_select' [E:/FPGA/DDS/dds.srcs/sources_1/new/dds.v:106]
 Completed static elaboration
 Starting simulation data flow analysis
 Completed simulation data flow analysis
@@ -18,8 +19,7 @@ Compiling module blk_mem_gen_v8_4_4.blk_mem_gen_v8_4_4_output_stage(...
 Compiling module blk_mem_gen_v8_4_4.blk_mem_gen_v8_4_4_softecc_outpu...
 Compiling module blk_mem_gen_v8_4_4.blk_mem_gen_v8_4_4_mem_module(C_...
 Compiling module blk_mem_gen_v8_4_4.blk_mem_gen_v8_4_4(C_FAMILY="art...
-Compiling module xil_defaultlib.rom_200x8b
-Compiling module xil_defaultlib.key_debounce(CNT_MAX=5)
+Compiling module xil_defaultlib.rom_1000x8b
 Compiling module xil_defaultlib.da_wave_send
 Compiling module xil_defaultlib.dds(CNT_MAX=5)
 Compiling module xil_defaultlib.tb_dds
