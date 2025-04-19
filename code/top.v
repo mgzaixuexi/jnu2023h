@@ -144,6 +144,12 @@ ram_256x16 u_ram_256x16(
   .doutb(rd_data)  // output wire [15 : 0] doutb
 );
 
+wire [7:0] waveA_freq;
+wire waveA_sin;
+wire [7:0] waveB_freq;
+wire waveB_sin;
+wire wave_vaild;
+
 //频率分离模块
 wave_freq u_wave_freq(
     .clk(clk_100m),
@@ -151,7 +157,7 @@ wave_freq u_wave_freq(
     .en(wr_done),//使能，上升沿有效，fft取模数据写入ram完成再拉高
 	.key(key_value[0]),//按键，重置识别
     .rd_data(rd_data),//fft取模数据
-    .rd_addr(rd_data),//ram地址
+    .rd_addr(rd_addr),//ram地址
     .waveA_freq(waveA_freq),//波A频率，要乘5000
     .waveA_sin(waveA_sin),//波A为正弦波的有效信号，高有效
     .waveB_freq(waveB_freq),//波B频率，要乘5000
