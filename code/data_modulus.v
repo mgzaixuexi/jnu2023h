@@ -8,8 +8,9 @@ module data_modulus(
     input             source_valid,  //输出有效信号，FFT变换完成后，此信号置高 
     //取模运算后的数据接口 
     output  [15:0]    data_modulus,  //取模后的数据 
-    output            data_eop,      //取模后输出的终止信号 
-    output            data_valid     //取模后的数据有效信号 
+	output  reg  [7:0]	  wr_addr,	 //写ram地址
+	output  reg        wr_en,		 //写使能	
+	output  reg        wr_done		 //分离模块使能
 ); 
  
 //reg define 
@@ -23,7 +24,6 @@ reg  [7:0]   source_eop_d;
 //**                    main code 
 //*****************************************************  
  
-assign  data_eop = source_eop_d[7]; 
  
 //取实部和虚部的平方和 
 always @ (posedge clk or negedge rst_n) begin 
@@ -71,5 +71,26 @@ cordic_0 u_cordic_0 (
  //X_IN和Y_IN在tdata字段中按字节对齐
  //第29至48行是对输入数据进行补码到原码的转换，同时对输入数据的原码取平方和。
  //ip核作用是原码的平方和开平方以得到幅值。
+ 
+//写ram控制
+always @ (posedge clk or negedge rst_n)
+    if(!rst_n) begin 
+	wr_addr <= 0;
+	wr_done <= 0;
+	wr_en <= 0;
+	end
+	else if(data_valid)begin
+	wr_en <= 1;
+		if(wr_addr <= 128)
+			wr_addr <= wr_addr + 1'b1;
+		else begin
+			wr_addr <= wr_addr;
+			wr_en <= 0;
+			wr_done<= 1;
+		end
+	end
+	else 
+	wr_en <= 0;
+		
 endmodule  
 
