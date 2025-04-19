@@ -1,10 +1,10 @@
 -- Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
--- Date        : Sat Apr 19 16:05:20 2025
--- Host        : PS2022QTODVDOC running 64-bit major release  (build 9200)
+-- Date        : Sat Apr 19 16:52:40 2025
+-- Host        : LAPTOP-OHGEUKK4 running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode synth_stub
---               h:/fpga/2023h/jnu2023h/jnu2023h.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_stub.vhdl
+--               c:/Users/sb/Desktop/git/jnu2023h-1/jnu2023h.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_stub.vhdl
 -- Design      : clk_wiz_0
 -- Purpose     : Stub declaration of top-level module interface
 -- Device      : xc7a35tfgg484-2

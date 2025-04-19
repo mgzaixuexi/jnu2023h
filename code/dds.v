@@ -23,22 +23,18 @@
 module dds(
     input                 sys_clk     ,  //系统时钟
     input                 sys_rst_n   ,  //系统复位，低电平有效
-    input                 wave_select1    ,  //波形控制按键
-    input                 wave_select2    ,  //波形控制按键
-    input     [7:0]       freq_select1    ,  //频率控制按键
-    input     [7:0]       freq_select2    ,  //频率控制按键
+    input                 wave_select1    ,  //波形控制
+    input                 wave_select2    ,  //波形控制
+    input     [7:0]       freq_select1    ,  //频率控制
+    input     [7:0]       freq_select2    ,  //频率控制
     input [5:0]          phase_select1,   //相位控制
     input [5:0]          phase_select2,   //相位控制
+    input                clk_100m,    //100M时钟
     //DA芯片接口
     output                da_clk_1      ,  //DAC驱动时钟
     output                da_clk_2      ,  //DAC驱动时钟
     output    [7:0]       da_data_1     ,  //输出给DA的数据
-    output    [7:0]       da_data_2     ,  //输出给DA的数据
-    //AD芯片接口
-    input     [7:0]       ad_data     ,  //AD输入数据
-    //模拟输入电压超出量程标志(本次试验未用到)
-    input                 ad_otr      ,  //0:在量程范围 1:超出量程
-    output                ad_clk         //ADC  驱动时钟
+    output    [7:0]       da_data_2       //输出给DA的数据
     );
 
 
@@ -48,9 +44,9 @@ parameter  CNT_MAX = 20'd200_0000;      //100MHz时钟下计数20ms
 //wire define 
 wire             rst_n          ;  // 复位，低有效
 wire             locked         ;  //PLL时钟锁定信号
-wire             clk_100m       ;  //100MHz时钟
-wire             clk_25m        ;  //25MHz时钟
-wire             clk_25m_deg120 ;  //相位偏移120的25MHz时钟
+
+// wire             clk_25m        ;  //25MHz时钟
+// wire             clk_25m_deg120 ;  //相位偏移120的25MHz时钟
 wire    [9:0]    rd_addr1        ;  //ROM读地址
 wire    [7:0]    rd_data1        ;  //ROM读出的数据
 wire    [9:0]    rd_addr2        ;  //ROM读地址
@@ -60,16 +56,16 @@ wire    [7:0]    rd_data2        ;  //ROM读出的数据
 
 //通过系统复位信号和PLL时钟锁定信号来产生一个新的复位信号
 assign   rst_n = sys_rst_n & locked;
-assign   ad_clk = clk_25m;
 
-//PLL IP核
- clk_wiz_0 u_clk_wiz_0(
-    .clk_out1 (clk_100m       ),  
-    .clk_out2 (clk_25m        ),
-    .clk_out3 (clk_25m_deg120 ),   
-    .locked   (locked         ),  
-    .clk_in1  (sys_clk        )   
-    );
+
+// //PLL IP核
+//  clk_wiz_0 u_clk_wiz_0(
+//     .clk_out1 (clk_100m       ),  
+//     .clk_out2 (clk_25m        ),
+//     .clk_out3 (clk_25m_deg120 ),   
+//     .locked   (locked         ),  
+//     .clk_in1  (sys_clk        )   
+//     );
     
 //ROM存储波形
 rom_1000x8b u_rom_1000x8b1 (
@@ -111,12 +107,6 @@ da_wave_send u_da_wave_send2(
     .da_data          (da_data_2        )
     );
   
-// //ILA采集AD数据
-// ila_0  ila_0 (
-//     .clk         (clk_25m_deg120 ), // input wire clk
-//     .probe0      (ad_otr         ), // input wire [0:0]  probe0  
-//     .probe1      (ad_data        )  // input wire [7:0]  probe1 
-//     );
 
 
 
