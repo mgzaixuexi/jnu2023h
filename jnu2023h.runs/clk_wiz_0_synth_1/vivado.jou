@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Sat Apr 19 14:40:17 2025
+# Process ID: 24248
+# Current directory: C:/Users/sb/Desktop/git/jnu2023h/jnu2023h/jnu2023h.runs/clk_wiz_0_synth_1
+# Command line: vivado.exe -log clk_wiz_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source clk_wiz_0.tcl
+# Log file: C:/Users/sb/Desktop/git/jnu2023h/jnu2023h/jnu2023h.runs/clk_wiz_0_synth_1/clk_wiz_0.vds
+# Journal file: C:/Users/sb/Desktop/git/jnu2023h/jnu2023h/jnu2023h.runs/clk_wiz_0_synth_1\vivado.jou
+#-----------------------------------------------------------
+source clk_wiz_0.tcl -notrace
