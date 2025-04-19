@@ -1,0 +1,206 @@
+/*
+
+Xilinx Vivado v2020.2 (64-bit) [Major: 2020, Minor: 2]
+SW Build: 3064766 on Wed Nov 18 09:12:45 MST 2020
+IP Build: 3064653 on Wed Nov 18 14:17:31 MST 2020
+
+Process ID (PID): 3724
+License: Customer
+Mode: GUI Mode
+
+Current time: 	Sat Apr 19 16:07:50 CST 2025
+Time zone: 	China Standard Time (Asia/Shanghai)
+
+OS: Windows 10
+OS Version: 10.0
+OS Architecture: amd64
+Available processors (cores): 12
+
+Screen size: 1920x1080
+Screen resolution (DPI): 100
+Available screens: 1
+Default font: family=Dialog,name=Dialog,style=plain,size=12
+Scale size: 12
+
+Java version: 	11.0.2 64-bit
+Java home: 	H:/fpga/Vivado/Vivado/2020.2/tps/win64/jre11.0.2
+Java executable location: 	H:/fpga/Vivado/Vivado/2020.2/tps/win64/jre11.0.2/bin/java.exe
+Java initial memory (-Xms): 	128 MB
+Java maximum memory (-Xmx):	 3 GB
+
+
+User name: 	Admin
+User home directory: C:/Users/Admin
+User working directory: H:/fpga/2023h/jnu2023h
+User country: 	CN
+User language: 	zh
+User locale: 	zh_CN
+
+RDI_BASEROOT: H:/fpga/Vivado/Vivado
+HDI_APPROOT: H:/fpga/Vivado/Vivado/2020.2
+RDI_DATADIR: H:/fpga/Vivado/Vivado/2020.2/data
+RDI_BINDIR: H:/fpga/Vivado/Vivado/2020.2/bin
+
+Vivado preferences file location: C:/Users/Admin/AppData/Roaming/Xilinx/Vivado/2020.2/vivado.xml
+Vivado preferences directory: C:/Users/Admin/AppData/Roaming/Xilinx/Vivado/2020.2/
+Vivado layouts directory: C:/Users/Admin/AppData/Roaming/Xilinx/Vivado/2020.2/data/layouts
+PlanAhead jar file location: 	H:/fpga/Vivado/Vivado/2020.2/lib/classes/planAhead.jar
+Vivado log file location: 	H:/fpga/2023h/jnu2023h/vivado.log
+Vivado journal file location: 	H:/fpga/2023h/jnu2023h/vivado.jou
+Engine tmp dir: 	H:/fpga/2023h/jnu2023h/.Xil/Vivado-3724-PS2022QTODVDOC
+
+Xilinx Environment Variables
+----------------------------
+NO_XILINX_DATA_LICENSE: HIDDEN
+XILINX: H:/fpga/Vivado/Vivado/2020.2/ids_lite/ISE
+XILINXD_LICENSE_FILE: H:\ISE14.7\Xilinx_ISE_DS_Win_14.7_1015_1\ISE147_Crack\ISE147_Crack\xilinx_ise.lic
+XILINX_DSP: H:/fpga/Vivado/Vivado/2020.2/ids_lite/ISE
+XILINX_HLS: H:/fpga/Vivado/Vitis_HLS/2020.2
+XILINX_PLANAHEAD: H:/fpga/Vivado/Vivado/2020.2
+XILINX_SDK: H:/fpga/Vivado/Vitis/2020.2
+XILINX_VITIS: H:/fpga/Vivado/Vitis/2020.2
+XILINX_VIVADO: H:/fpga/Vivado/Vivado/2020.2
+XILINX_VIVADO_HLS: H:/fpga/Vivado/Vivado/2020.2
+
+
+GUI allocated memory:	197 MB
+GUI max memory:		3,072 MB
+Engine allocated memory: 1,143 MB
+
+Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
+
+*/
+
+// TclEventType: START_GUI
+// TclEventType: PROJECT_OPEN_DIALOG
+// Tcl Message: start_gui 
+// TclEventType: PROJECT_OPEN_DIALOG
+// [GUI Memory]: 79 MB (+80785kb) [00:00:03]
+// [Engine Memory]: 1,143 MB (+1046587kb) [00:00:03]
+// bz (cr):  Open Project : addNotify
+// Opening Vivado Project: H:\fpga\2023h\jnu2023h\jnu2023h.xpr. Version: Vivado v2020.2 
+// TclEventType: DEBUG_PROBE_SET_CHANGE
+// Tcl Message: open_project H:/fpga/2023h/jnu2023h/jnu2023h.xpr 
+// TclEventType: MSGMGR_MOVEMSG
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: FILE_SET_NEW
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_CURRENT
+// TclEventType: PROJECT_DASHBOARD_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: PROJECT_NEW
+// [GUI Memory]: 108 MB (+25705kb) [00:00:06]
+// WARNING: HEventQueue.dispatchEvent() is taking  1304 ms.
+// Tcl Message: open_project H:/fpga/2023h/jnu2023h/jnu2023h.xpr 
+// Tcl Message: Scanning sources... Finished scanning sources 
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1704] No user IP repositories specified INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'H:/fpga/Vivado/Vivado/2020.2/data/ip'. 
+// Project name: jnu2023h; location: H:/fpga/2023h/jnu2023h; part: xc7a35tfgg484-2
+dismissDialog("Open Project"); // bz
+// HMemoryUtils.trashcanNow. Engine heap size: 1,143 MB. GUI used memory: 58 MB. Current time: 4/19/25, 4:07:51 PM CST
+// Tcl Command: 'rdi::info_commands {device::*}'
+// Tcl Command: 'rdi::info_commands {debug::*}'
+// Tcl Command: 'rdi::info_commands {*}'
+// a (cr): Critical Messages: addNotify
+// [GUI Memory]: 129 MB (+16651kb) [00:00:09]
+selectButton(PAResourceAtoD.CmdMsgDialog_OK, "OK"); // f
+// TclEventType: FILE_SET_CHANGE
+dismissDialog("Critical Messages"); // a
+// Tcl Message: update_compile_order -fileset sources_1 
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, top (top.v)]", 2); // D
+collapseTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, top (top.v)]", 2); // D
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, dds (dds.v)]", 3); // D
+collapseTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, dds (dds.v)]", 3); // D
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, lcd_rgb_top (lcd_rgb_top.v)]", 4); // D
+collapseTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, lcd_rgb_top (lcd_rgb_top.v)]", 4); // D
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, dds (dds.v)]", 3); // D
+collapseTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, dds (dds.v)]", 3); // D
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, top (top.v)]", 2); // D
+collapseTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, top (top.v)]", 2); // D
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, dds (dds.v)]", 3); // D
+collapseTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, dds (dds.v)]", 3); // D
+// [GUI Memory]: 136 MB (+228kb) [00:00:32]
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Constraints]", 6); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Constraints, constrs_1, am.xdc]", 8, false); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Constraints, constrs_1, am.xdc]", 8, false, false, false, false, true, false); // D - Popup Trigger
+selectMenu(PAResourceCommand.PACommandNames_AUTO_UPDATE_HIER, "Hierarchy Update"); // ah
+selectMenu(PAResourceQtoS.SrcMenu_IP_HIERARCHY, "IP Hierarchy"); // ah
+selectMenuItem(PAResourceCommand.PACommandNames_ADD_SOURCES, "Add Sources..."); // ak
+// Run Command: PAResourceCommand.PACommandNames_ADD_SOURCES
+// c (cr): Add Sources: addNotify
+selectButton("NEXT", "Next >"); // JButton
+selectButton(PAResourceQtoS.SrcChooserPanel_ADD_OR_CREATE_SOURCE_FILE, "Add"); // E
+selectButton(PAResourceQtoS.SrcChooserPanel_ADD_HDL_AND_NETLIST_FILES_TO_YOUR_PROJECT, "Add Files"); // a
+dismissFileChooser();
+selectButton(PAResourceQtoS.SrcChooserPanel_ADD_HDL_AND_NETLIST_FILES_TO_YOUR_PROJECT, "Add Files"); // a
+// TclEventType: FILE_SET_CHANGE
+// Elapsed time: 20 seconds
+dismissFileChooser();
+// 'g' command handler elapsed time: 44 seconds
+dismissDialog("Add Sources"); // c
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, lcd_rgb_top (lcd_rgb_top.v)]", 4, true, false, false, false, true, false); // D - Popup Trigger - Node
+selectMenu(PAResourceCommand.PACommandNames_AUTO_UPDATE_HIER, "Hierarchy Update"); // ah
+selectMenu(PAResourceQtoS.SrcMenu_IP_HIERARCHY, "IP Hierarchy"); // ah
+selectMenuItem(PAResourceCommand.PACommandNames_ADD_SOURCES, "Add Sources..."); // ak
+// Run Command: PAResourceCommand.PACommandNames_ADD_SOURCES
+// c (cr): Add Sources: addNotify
+selectRadioButton(PAResourceAtoD.AddSrcWizard_SPECIFY_SIMULATION_SPECIFIC_HDL_FILES, "Add or create simulation sources"); // a
+// TclEventType: FILE_SET_CHANGE
+selectRadioButton(PAResourceAtoD.AddSrcWizard_SPECIFY_OR_CREATE_CONSTRAINT_FILES, "Add or create constraints"); // a
+selectButton("NEXT", "Next >"); // JButton
+selectButton(PAResourceAtoD.ConstraintsChooserPanel_ADD_FILES, "Add Files"); // a
+setFileChooser("H:/fpga/2023h/jnu2023h/信息文件/am.xdc");
+selectTable(PAResourceAtoD.ConstraintsChooserPanel_FILE_TABLE, "am.xdc ; H:\\fpga\\2023h\\jnu2023h\\信息文件", 1, "H:\\fpga\\2023h\\jnu2023h\\信息文件", 1); // t
+selectTable(PAResourceAtoD.ConstraintsChooserPanel_FILE_TABLE, "am.xdc ; H:\\fpga\\2023h\\jnu2023h\\doc", 0, "am.xdc", 0); // t
+selectTable(PAResourceAtoD.ConstraintsChooserPanel_FILE_TABLE, "am.xdc ; H:\\fpga\\2023h\\jnu2023h\\信息文件", 1, "am.xdc", 0); // t
+selectTable(PAResourceAtoD.ConstraintsChooserPanel_FILE_TABLE, "am.xdc ; H:\\fpga\\2023h\\jnu2023h\\doc", 0, "am.xdc", 0); // t
+selectButton(RDIResource.AbstractCombinedPanel_REMOVE_SELECTED_ELEMENTS, "Remove"); // E
+selectButton("FINISH", "Finish"); // JButton
+// 'g' command handler elapsed time: 29 seconds
+dismissDialog("Add Sources"); // c
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: add_files -fileset constrs_1 -norecurse H:/fpga/2023h/jnu2023h/信息文件/am.xdc 
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Constraints, constrs_1, am.xdc]", 8, false, false, false, false, true, false); // D - Popup Trigger
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Constraints, constrs_1, am.xdc]", 8, false, false, false, false, true, false); // D - Popup Trigger
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Constraints, constrs_1, am.xdc]", 8, false); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Constraints, constrs_1, am.xdc]", 8, false, false, false, false, false, true); // D - Double Click
+// ag (cr): Unable to Open File: addNotify
+dismissDialog("Unable to Open File"); // ag
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Constraints, constrs_1, am.xdc]", 8, false, false, false, false, true, false); // D - Popup Trigger
+selectMenuItem(RDIResourceCommand.RDICommands_DELETE, "Remove File from Project..."); // ak
+// Run Command: RDIResourceCommand.RDICommands_DELETE
+// aE (cr): Remove Sources: addNotify
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a
+dismissDialog("Remove Sources"); // aE
+// Tcl Message: export_ip_user_files -of_objects  [get_files H:/fpga/2023h/jnu2023h/doc/am.xdc] -no_script -reset -force -quiet 
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: remove_files  -fileset constrs_1 H:/fpga/2023h/jnu2023h/doc/am.xdc 
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Constraints, constrs_1, am.xdc]", 8, false); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Constraints, constrs_1, am.xdc]", 8, false); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Constraints, constrs_1, am.xdc]", 8, false, false, false, false, false, true); // D - Double Click
+// Launch External Editor: 'H:/notepad/Notepad++/notepad++.exe "H:/fpga/2023h/jnu2023h/信息文件/am.xdc"'
+// Elapsed time: 37 seconds
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, top (top.v)]", 2, true); // D - Node
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, top (top.v)]", 2, true, false, false, false, false, true); // D - Double Click - Node
+// Launch External Editor: 'H:/notepad/Notepad++/notepad++.exe "H:/fpga/2023h/jnu2023h/code/top.v"'
+// Elapsed time: 58 seconds
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Constraints, constrs_1, am.xdc]", 14, false); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Constraints, constrs_1, am.xdc]", 14, false, false, false, false, false, true); // D - Double Click
+// Launch External Editor: 'H:/notepad/Notepad++/notepad++.exe "H:/fpga/2023h/jnu2023h/信息文件/am.xdc"'

@@ -11,9 +11,9 @@ echo "Please update the PATH and LD_LIBRARY_PATH variables below, before executi
 exit
 
 if [ -z "$PATH" ]; then
-  PATH=E:/Xilinx/Vitis/2020.2/bin;E:/Xilinx/Vivado/2020.2/ids_lite/ISE/bin/nt64;E:/Xilinx/Vivado/2020.2/ids_lite/ISE/lib/nt64:E:/Xilinx/Vivado/2020.2/bin
+  PATH=H:/fpga/Vivado/Vitis/2020.2/bin;H:/fpga/Vivado/Vivado/2020.2/ids_lite/ISE/bin/nt64;H:/fpga/Vivado/Vivado/2020.2/ids_lite/ISE/lib/nt64:H:/fpga/Vivado/Vivado/2020.2/bin
 else
-  PATH=E:/Xilinx/Vitis/2020.2/bin;E:/Xilinx/Vivado/2020.2/ids_lite/ISE/bin/nt64;E:/Xilinx/Vivado/2020.2/ids_lite/ISE/lib/nt64:E:/Xilinx/Vivado/2020.2/bin:$PATH
+  PATH=H:/fpga/Vivado/Vitis/2020.2/bin;H:/fpga/Vivado/Vivado/2020.2/ids_lite/ISE/bin/nt64;H:/fpga/Vivado/Vivado/2020.2/ids_lite/ISE/lib/nt64:H:/fpga/Vivado/Vivado/2020.2/bin:$PATH
 fi
 export PATH
 
@@ -24,7 +24,7 @@ else
 fi
 export LD_LIBRARY_PATH
 
-HD_PWD='C:/Users/sb/Desktop/git/jnu2023h/jnu2023h/jnu2023h.runs/clk_wiz_0_synth_1'
+HD_PWD='H:/fpga/2023h/jnu2023h/jnu2023h.runs/clk_wiz_0_synth_1'
 cd "$HD_PWD"
 
 HD_LOG=runme.log

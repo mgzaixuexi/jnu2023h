@@ -1,0 +1,35 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Sat Apr 19 16:03:00 2025
+# Process ID: 7904
+# Current directory: H:/fpga/2023h/jnu2023h
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent17880 H:\fpga\2023h\jnu2023h\jnu2023h.xpr
+# Log file: H:/fpga/2023h/jnu2023h/vivado.log
+# Journal file: H:/fpga/2023h/jnu2023h\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project H:/fpga/2023h/jnu2023h/jnu2023h.xpr
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+add_files {H:/fpga/2023h/jnu2023h/code/wave_freq.v H:/fpga/2023h/jnu2023h/code/clk_div.v H:/fpga/2023h/jnu2023h/code/key_debounce.v H:/fpga/2023h/jnu2023h/code/lcd_display.v H:/fpga/2023h/jnu2023h/code/lcd_driver.v H:/fpga/2023h/jnu2023h/code/top.v H:/fpga/2023h/jnu2023h/code/da_wave_send.v H:/fpga/2023h/jnu2023h/code/ftt_clk.v H:/fpga/2023h/jnu2023h/code/lcd_rgb_top.v H:/fpga/2023h/jnu2023h/code/data_modulus.v H:/fpga/2023h/jnu2023h/code/dds.v H:/fpga/2023h/jnu2023h/code/rd_id.v}
+update_compile_order -fileset sources_1
+set_property -dict [list CONFIG.CLKOUT4_USED {true} CONFIG.CLKOUT4_REQUESTED_OUT_FREQ {32} CONFIG.MMCM_CLKFBOUT_MULT_F {16.000} CONFIG.MMCM_CLKOUT0_DIVIDE_F {8.000} CONFIG.MMCM_CLKOUT1_DIVIDE {32} CONFIG.MMCM_CLKOUT2_DIVIDE {32} CONFIG.MMCM_CLKOUT2_PHASE {119.531} CONFIG.MMCM_CLKOUT3_DIVIDE {25} CONFIG.NUM_OUT_CLKS {4} CONFIG.CLKOUT1_JITTER {186.330} CONFIG.CLKOUT1_PHASE_ERROR {144.334} CONFIG.CLKOUT2_JITTER {258.104} CONFIG.CLKOUT2_PHASE_ERROR {144.334} CONFIG.CLKOUT3_JITTER {258.104} CONFIG.CLKOUT3_PHASE_ERROR {144.334} CONFIG.CLKOUT4_JITTER {245.242} CONFIG.CLKOUT4_PHASE_ERROR {144.334}] [get_ips clk_wiz_0]
+generate_target all [get_files  H:/fpga/2023h/jnu2023h/jnu2023h.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0.xci]
+catch { config_ip_cache -export [get_ips -all clk_wiz_0] }
+export_ip_user_files -of_objects [get_files H:/fpga/2023h/jnu2023h/jnu2023h.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0.xci] -no_script -sync -force -quiet
+reset_run clk_wiz_0_synth_1
+launch_runs clk_wiz_0_synth_1 -jobs 6
+wait_on_run clk_wiz_0_synth_1
+export_simulation -of_objects [get_files H:/fpga/2023h/jnu2023h/jnu2023h.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0.xci] -directory H:/fpga/2023h/jnu2023h/jnu2023h.ip_user_files/sim_scripts -ip_user_files_dir H:/fpga/2023h/jnu2023h/jnu2023h.ip_user_files -ipstatic_source_dir H:/fpga/2023h/jnu2023h/jnu2023h.ip_user_files/ipstatic -lib_map_path [list {modelsim=H:/fpga/2023h/jnu2023h/jnu2023h.cache/compile_simlib/modelsim} {questa=H:/fpga/2023h/jnu2023h/jnu2023h.cache/compile_simlib/questa} {riviera=H:/fpga/2023h/jnu2023h/jnu2023h.cache/compile_simlib/riviera} {activehdl=H:/fpga/2023h/jnu2023h/jnu2023h.cache/compile_simlib/activehdl}] -use_ip_compiled_libs -force -quiet
+create_ip -name blk_mem_gen -vendor xilinx.com -library ip -version 8.4 -module_name ram_256x16
+set_property -dict [list CONFIG.Component_Name {ram_256x16} CONFIG.Memory_Type {Simple_Dual_Port_RAM} CONFIG.Write_Depth_A {256} CONFIG.Operating_Mode_A {NO_CHANGE} CONFIG.Enable_A {Use_ENA_Pin} CONFIG.Enable_B {Always_Enabled} CONFIG.Register_PortA_Output_of_Memory_Primitives {false} CONFIG.Register_PortB_Output_of_Memory_Primitives {false} CONFIG.Port_B_Clock {100} CONFIG.Port_B_Enable_Rate {100}] [get_ips ram_256x16]
+generate_target {instantiation_template} [get_files h:/fpga/2023h/jnu2023h/jnu2023h.srcs/sources_1/ip/ram_256x16/ram_256x16.xci]
+generate_target all [get_files  h:/fpga/2023h/jnu2023h/jnu2023h.srcs/sources_1/ip/ram_256x16/ram_256x16.xci]
+catch { config_ip_cache -export [get_ips -all ram_256x16] }
+export_ip_user_files -of_objects [get_files h:/fpga/2023h/jnu2023h/jnu2023h.srcs/sources_1/ip/ram_256x16/ram_256x16.xci] -no_script -sync -force -quiet
+create_ip_run [get_files -of_objects [get_fileset sources_1] h:/fpga/2023h/jnu2023h/jnu2023h.srcs/sources_1/ip/ram_256x16/ram_256x16.xci]
+launch_runs ram_256x16_synth_1 -jobs 6
+wait_on_run ram_256x16_synth_1
+export_simulation -of_objects [get_files h:/fpga/2023h/jnu2023h/jnu2023h.srcs/sources_1/ip/ram_256x16/ram_256x16.xci] -directory H:/fpga/2023h/jnu2023h/jnu2023h.ip_user_files/sim_scripts -ip_user_files_dir H:/fpga/2023h/jnu2023h/jnu2023h.ip_user_files -ipstatic_source_dir H:/fpga/2023h/jnu2023h/jnu2023h.ip_user_files/ipstatic -lib_map_path [list {modelsim=H:/fpga/2023h/jnu2023h/jnu2023h.cache/compile_simlib/modelsim} {questa=H:/fpga/2023h/jnu2023h/jnu2023h.cache/compile_simlib/questa} {riviera=H:/fpga/2023h/jnu2023h/jnu2023h.cache/compile_simlib/riviera} {activehdl=H:/fpga/2023h/jnu2023h/jnu2023h.cache/compile_simlib/activehdl}] -use_ip_compiled_libs -force -quiet

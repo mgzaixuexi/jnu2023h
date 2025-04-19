@@ -8,10 +8,10 @@ vmap xpm modelsim_lib/msim/xpm
 vmap xil_defaultlib modelsim_lib/msim/xil_defaultlib
 
 vlog -work xpm  -incr -sv "+incdir+../../../ipstatic" \
-"E:/Xilinx/Vivado/2020.2/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv" \
+"H:/fpga/Vivado/Vivado/2020.2/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv" \
 
 vcom -work xpm  -93 \
-"E:/Xilinx/Vivado/2020.2/data/ip/xpm/xpm_VCOMP.vhd" \
+"H:/fpga/Vivado/Vivado/2020.2/data/ip/xpm/xpm_VCOMP.vhd" \
 
 vlog -work xil_defaultlib  -incr "+incdir+../../../ipstatic" \
 "../../../../jnu2023h.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_clk_wiz.v" \

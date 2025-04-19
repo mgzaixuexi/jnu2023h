@@ -1,0 +1,6 @@
+verilog xil_defaultlib  \
+"../../../../jnu2023h.gen/sources_1/ip/ram_256x16/sim/ram_256x16.v" \
+
+verilog xil_defaultlib "glbl.v"
+
+nosort
