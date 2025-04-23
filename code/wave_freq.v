@@ -174,7 +174,7 @@ always @(posedge clk or negedge  rst_n)
 						end
 			trijudgeA	:begin
 						rd_addr <= waveA_freqx3 + 1;
-						if((rd_data > waveA_3ndata) && (rd_addr != waveA_freqx3))
+						if((rd_data > waveA_3ndata) && (rd_addr != waveA_freqx3) && (rd_addr != waveB_freq))
 							waveA_3ndata <= rd_data;
 						else 
 							waveA_3ndata <= waveA_3ndata;
