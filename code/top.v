@@ -1,4 +1,3 @@
-`timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
 // Engineer: 
@@ -77,29 +76,6 @@ assign  ad_clk_2 = clk_50m;
     .clk_in1  (sys_clk        )   
     );    
 
-//DDS输出正弦波或三角波
-dds u_dds(
-    .sys_clk(sys_clk)     ,  //系统时钟
-    .sys_rst_n  (sys_rst_n) ,  //系统复位，低电平有效
-    .wave_select1 (wave_select1)   ,  //波形控制
-    .wave_select2  (wave_select2)  ,  //波形控制
-    .freq_select1 (freq_select1)   ,  //频率控制按键
-    .freq_select2 (freq_select2)   ,  //频率控制按键
-    .phase_select1(phase_select1),   //相位控制
-    .phase_select2(phase_select1),   //相位控制
-    .da_clk_1 (da_clk_1)     ,  //DAC驱动时钟
-    .da_clk_2 (da_clk_2)    ,  //DAC驱动时钟
-    .da_data_1 (da_data_1)    ,  //输出给DA的数据
-    .da_data_2 (da_data_2)     //输出给DA的数据
-    );
-
-//按键防抖
-key_debounce m3_key_debounce(
-    .clk(clk_100m),
-    .rst_n(rst_n),
-    .key(key),
-    .key_value(key_value)
-    );
 	
 //fft时钟生成
 ftt_clk u_ftt_clk(
@@ -108,19 +84,71 @@ ftt_clk u_ftt_clk(
     .clk_640k(clk_640k)
     );
 	
+
+//例化fft模块
+//将采集后的adc输出数据补0赋给fft的输入数据
+
+
+// FFT输入接口（驱动信号改为reg＿
+wire [15:0] fft_s_data_tdata;  // 输入数据（实部）
+assign fft_s_data_tdata = {5'b0,mix_signal[10:0]};  
+wire       fft_s_data_tvalid; // 数据有效
+wire       fft_s_data_tlast;  // 数据结束标志
+
+// FFT输出接口（保持为wire＿
+wire       fft_s_data_tready; // FFT准备好接收数捿
+wire [47:0] fft_m_data_tdata; // 频谱输出数据
+wire        fft_m_data_tvalid;
+
+// 配置接口
+reg [7:0]  fft_s_config_tdata;
+reg        fft_s_config_tvalid;
+wire       fft_s_config_tready;
+// FFT IP核实例化
+xfft_0 u_fft(
+    .aclk(clk_640k),
+    .aresetn(rst_n),
+    .s_axis_config_tdata(8'd1),
+    .s_axis_config_tvalid(1'b1),
+    .s_axis_config_tready(fft_s_config_tready),  // 悬空
+	
+    .s_axis_data_tdata({16'h0000, fft_s_data_tdata}), // 虚部为0，实部为输入数据
+    .s_axis_data_tvalid(fft_s_data_tvalid),
+    .s_axis_data_tready(fft_s_data_tready),
+    .s_axis_data_tlast(fft_s_data_tlast),
+	
+    .m_axis_data_tdata(fft_m_data_tdata),
+    .m_axis_data_tuser(),
+    .m_axis_data_tvalid(fft_m_data_tvalid),
+    .m_axis_data_tready(1'b1), // 假设从设备始终准备好接收
+    .m_axis_data_tlast(),
+
+    .m_axis_status_tdata(),                  // output wire [7 : 0] m_axis_status_tdata
+    .m_axis_status_tvalid(),                // output wire m_axis_status_tvalid
+    .m_axis_status_tready(1'b0),                // input wire m_axis_status_tready	
+    // 其他事件信号悬空
+    .event_frame_started(),
+    .event_tlast_unexpected(),
+    .event_tlast_missing(),
+    .event_status_channel_halt(),
+    .event_data_in_channel_halt(),
+    .event_data_out_channel_halt()
+);
+
 wire fft_en;
-wire [15:0] data_modulus;
+wire [32:0] data_modulus;
 wire [7:0] wr_addr;
 wire wr_en;
 wire wr_done;
-
+// 实部fft_m_data_tdata[15:0],   是否为有符号数仍需进一步验证
+// 虚部fft_m_data_tdata[31:16]); 
 data_modulus u_data_modulus(
 	.clk(clk_640k),
 	.rst_n(rst_n),
 	.key(key_value[0]),                       //键控重置，就是题目里的启动键，不是复位
 	//FFT ST接口 
-    .source_real(),   //实部 有符号数 
-    .source_imag(),   //虚部 有符号数 
+    .source_real(fft_m_data_tdata[15:0]),   //实部 有符号数 
+    .source_imag(fft_m_data_tdata[31:16]),   //虚部 有符号数 
 	
     .source_valid(),  //输出有效信号，FFT变换完成后，此信号置高 
 	.fft_en(fft_en),		 //fft的使能，接到数据有效或者时钟有效都行
@@ -129,40 +157,7 @@ data_modulus u_data_modulus(
 	.wr_addr(wr_addr),	 //写ram地址
 	.wr_en(wr_en),		 //写使能	
 	.wr_done(wr_done)		 //分离模块使能
-);	
-
-wire [7:0] rd_addr;
-wire [15:0] rd_data;
-
-ram_256x16 u_ram_256x16(
-  .clka(clk_640k),    // input wire clka
-  .wea(wr_en),      // input wire [0 : 0] wea
-  .addra(wr_addr),  // input wire [7 : 0] addra
-  .dina(data_modulus),    // input wire [15 : 0] dina
-  .clkb(clk_100m),    // input wire clkb
-  .addrb(rd_addr),  // input wire [7 : 0] addrb
-  .doutb(rd_data)  // output wire [15 : 0] doutb
-);
-
-wire [7:0] waveA_freq;
-wire waveA_sin;
-wire [7:0] waveB_freq;
-wire waveB_sin;
-wire wave_vaild;
-
-//频率分离模块
-wave_freq u_wave_freq(
-    .clk(clk_100m),
-    .rst_n(rst_n),
-    .en(wr_done),//使能，上升沿有效，fft取模数据写入ram完成再拉高
-	.key(key_value[0]),//按键，重置识别
-    .rd_data(rd_data),//fft取模数据
-    .rd_addr(rd_addr),//ram地址
-    .waveA_freq(waveA_freq),//波A频率，要乘5000
-    .waveA_sin(waveA_sin),//波A为正弦波的有效信号，高有效
-    .waveB_freq(waveB_freq),//波B频率，要乘5000
-    .waveB_sin(waveB_sin),//波B为正弦波的有效信号，高有效
-    .wave_vaild(wave_vaild)//数据有效信号，高有效
-    );
-	
+);						
+					
+					
 endmodule

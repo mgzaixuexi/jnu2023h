@@ -1,25 +1,28 @@
 伪双端，宽度16位，深度256位，运作模式为No Change，禁用所有时序优化寄存器
 
-//cordic说明：ip功能有7个选项可选，分别是Rotate、Sin and Cos、ArcTan、Square Root、Translate、Sinh and Cosh和 ArcTanh
-选择Square root模式，输入一个数值，输出其平方根值。 
 
-Pipelining Mode并行模式有No Pipelining、Optimal和Maximum
-选择Optimal：ip用尽可能多的流水线来实现，但不会使用额外的lut，相当于优化资源和时序； 
-
-Data Format有是Signed Fraction、Unsigned Fraction和Unsigned Integer
-选择Unsigned Integer无符号整数
-
-“Input Width”用来选择输入数据的位宽，可选范围为8~48，取16。 
-
-取整模式选择Nearest Even取整为最近的整数，0.5向下取整，1.5向上取整。
-
-“Compensation Scaling”用来选择数据的补偿方式，选No Scale Compensation没有补偿
-
-“Flow Control”选择Non Blocking 模式
-
-cordic的输入有效使能和输出有效使能之间是延迟了6个时钟周期，
-再加上运算原码和平方和的2个周期，总共是8个时钟周期的延迟，
-所以将输入的source_eop打了8拍后赋值给了输出，以供后级模块用。 
+//cordic说明：输入输出都为16位有符号数，仿真通过，输出有时延
 
 
+
+//fft说明：采用Pipelined，Streaming流水线模式。
+根据老师的要求：一个周期采样32个点，起码要采128个周期，采样点数必须上千，不然根本不准。
+
+通道数设为 1,采样点个数设为 256，时钟为640K, 
+fft 运算的数据速率，可选范围为 1MSPS~1000 MSPS
+
+定点数据格式,
+ fft 运算输入数据的位宽， 可选范围为 8bit~34bit。 当数据格式为Floating-Point 模式时，输入数据宽度固定为 32 位，相位因子宽度可设置为 24 或 25 位。本次实验的输入数
+据位宽为 9 位，因为 ad 的输入数据为 8 位无符号数，但 ip 的输入数据为有符号数，因此要在高位补 1bit的 0，所以输入的数据为 9 位。
+注意这个位宽是实部或者虚部的位宽，而不是加起来。比如这里设置 16，那总的输入进来的长度就是虚部拼接实部共 32bits。
+考虑到top里面mix_signal是11位数据，因此fft也使用11位。
+相位因子的位宽为9，同步复位，顺序输出
+S_ AXIS_ CONFIG _TDATA：表示配置通道的输入数据格式， FWD_INV 处于配置数据通道的最低位；
+M_ AXIS_ DATA _TDATA：表示数据通道的输出数据格式，其中[26:16]为虚部输出的 11 位位宽数据，
+其中[10:0]为实部输出的 11 位位宽数据；
+M_ AXIS_ DATA _TUSER：表示该通道的数据分布，其中[6:0]表示输出数据的索引值， [12:8]表示输出数据的缩放系数；
+M_ AXIS_ STATUS _TDATA：表示状态通道的输出数据格式， [4:0]表示输出数据的缩放系数
+
+
+输入11位无符号数，最大转换速度为 50MSPS，
 

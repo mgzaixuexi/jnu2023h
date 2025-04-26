@@ -23,24 +23,24 @@
 module wave_freq(
     input clk,
     input rst_n,
-    input en,//Ê¹ÄÜ£¬ÉÏÉýÑØÓÐÐ§£¬fftÈ¡Ä£Êý¾ÝÐ´ÈëramÍê³ÉÔÙÀ­¸ß
-	input key,//°´¼ü£¬ÖØÖÃÊ¶±ð
-    input [15:0] rd_data,//fftÈ¡Ä£Êý¾Ý
-    output reg [7:0] rd_addr,//ramµØÖ·
-    output reg [7:0] waveA_freq,//²¨AÆµÂÊ£¬Òª³Ë5000
-    output reg waveA_sin,//²¨AÎªÕýÏÒ²¨µÄÓÐÐ§ÐÅºÅ£¬¸ßÓÐÐ§
-    output reg [7:0] waveB_freq,//²¨BÆµÂÊ£¬Òª³Ë5000
-    output reg waveB_sin,//²¨BÎªÕýÏÒ²¨µÄÓÐÐ§ÐÅºÅ£¬¸ßÓÐÐ§
-    output reg wave_vaild//Êý¾ÝÓÐÐ§ÐÅºÅ£¬¸ßÓÐÐ§
+    input en,//Ê¹ï¿½Ü£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½fftÈ¡Ä£ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ramï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	input key,//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½
+    input [15:0] rd_data,//fftÈ¡Ä£ï¿½ï¿½ï¿½ï¿½
+    output reg [7:0] rd_addr,//ramï¿½ï¿½Ö·
+    output reg [7:0] waveA_freq,//ï¿½ï¿½AÆµï¿½Ê£ï¿½Òªï¿½ï¿½5000
+    output reg waveA_sin,//ï¿½ï¿½AÎªï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ÅºÅ£ï¿½ï¿½ï¿½ï¿½ï¿½Ð§
+    output reg [7:0] waveB_freq,//ï¿½ï¿½BÆµï¿½Ê£ï¿½Òªï¿½ï¿½5000
+    output reg waveB_sin,//ï¿½ï¿½BÎªï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ÅºÅ£ï¿½ï¿½ï¿½ï¿½ï¿½Ð§
+    output reg wave_vaild//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ÅºÅ£ï¿½ï¿½ï¿½ï¿½ï¿½Ð§
     );
     
-parameter compare_num1 = 16;//±È½ÏãÐÖµ£¬´ý¶¨
-parameter compare_num2 = 16;//±È½ÏãÐÖµ£¬´ý¶¨
+parameter compare_num1 = 16;//ï¿½È½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+parameter compare_num2 = 16;//ï¿½È½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 parameter idle = 6'b000_001;
-parameter find = 6'b000_010;//²éÕÒÁ½¸ö·åÖµ
-parameter overlap = 6'b000_100;//²¨BÆµÂÊÊÇ²¨AÈý±¶ÆµÊ±
-parameter trijudgeA = 6'b001_000;//ÅÐ¶Ï²¨AÐÎ×´
-parameter trijudgeB = 6'b010_000;//ÅÐ¶Ï²¨BÐÎ×´
+parameter find = 6'b000_010;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
+parameter overlap = 6'b000_100;//ï¿½ï¿½BÆµï¿½ï¿½ï¿½Ç²ï¿½Aï¿½ï¿½ï¿½ï¿½ÆµÊ±
+parameter trijudgeA = 6'b001_000;//ï¿½Ð¶Ï²ï¿½Aï¿½ï¿½×´
+parameter trijudgeB = 6'b010_000;//ï¿½Ð¶Ï²ï¿½Bï¿½ï¿½×´
 parameter done = 6'b100_000;
 
 reg [5:0] state;
@@ -49,14 +49,14 @@ reg en_d0;
 reg en_d1;
 reg [15:0] waveA_data;
 reg [15:0] waveB_data;
-reg [15:0] waveA_3ndata;//²¨AÈý±¶Æµ¸½½üµÄ×î´óÖµ
-reg [15:0] waveB_3ndata;//²¨BÈý±¶Æµ¸½½üµÄ×î´óÖµ
+reg [15:0] waveA_3ndata;//ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
+reg [15:0] waveB_3ndata;//ï¿½ï¿½Bï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
 reg [2:0] flag;
 reg key_d0;
 reg key_d1;
 
-wire [7:0] waveA_freqx3;//²¨AÈý±¶Æµ
-wire [7:0] waveB_freqx3;//²¨BÈý±¶Æµ
+wire [7:0] waveA_freqx3;//ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½Æµ
+wire [7:0] waveB_freqx3;//ï¿½ï¿½Bï¿½ï¿½ï¿½ï¿½Æµ
 
 assign waveA_freqx3 = waveA_freq * 3;
 assign waveB_freqx3 = waveB_freq * 3;

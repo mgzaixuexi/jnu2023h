@@ -1,86 +1,114 @@
+//****************************************Copyright (c)***********************************//
+// ĞŞ¸ÄËµÃ÷£ºÊÊÅä16Î»ÓĞ·ûºÅÊıÊäÈë
+// Ö÷ÒªĞŞ¸Äµã£º
+// 1. ÊäÈëÎ»¿íÀ©Õ¹Îª16Î»
+// 2. Ô­Âë×ª»»Âß¼­ÊÊÅä15Î»Êı¾İ
+// 3. Æ½·½ºÍ¼ÆËãÀ©Õ¹µ½31Î»
+// 4. CordicÊäÈë½Ó¿ÚÊÊÅä
+//****************************************************************************************/
+
 module data_modulus(
-	input clk,
-	input rst_n,
-	input key,                       //é”®æ§é‡ç½®ï¼Œå°±æ˜¯é¢˜ç›®é‡Œçš„å¯åŠ¨é”®ï¼Œä¸æ˜¯å¤ä½
-	//FFT STæ¥å£ 
-    input   [8:0]     source_real,   //å®éƒ¨ æœ‰ç¬¦å·æ•° 
-    input   [8:0]     source_imag,   //è™šéƒ¨ æœ‰ç¬¦å·æ•° 
-	
-    input             source_valid,  //è¾“å‡ºæœ‰æ•ˆä¿¡å·ï¼ŒFFTå˜æ¢å®Œæˆåï¼Œæ­¤ä¿¡å·ç½®é«˜ 
-	output  reg       fft_en,		 //fftçš„ä½¿èƒ½ï¼Œæ¥åˆ°æ•°æ®æœ‰æ•ˆæˆ–è€…æ—¶é’Ÿæœ‰æ•ˆéƒ½è¡Œ
-    //å–æ¨¡è¿ç®—åçš„æ•°æ®æ¥å£ 
-    output  [15:0]    data_modulus,  //å–æ¨¡åçš„æ•°æ® 
-	output  reg  [7:0]	  wr_addr,	 //å†™ramåœ°å€
-	output         	  wr_en,		 //å†™ä½¿èƒ½	
-	output  reg       wr_done		 //åˆ†ç¦»æ¨¡å—ä½¿èƒ½
-); 
- 
-//reg define 
-reg  [15:0]  source_data;        //åŸç å¹³æ–¹å’Œ 
-reg  [7:0]   data_real;          //å®éƒ¨åŸç  
-reg  [7:0]   data_imag;          //è™šéƒ¨åŸç  
-reg  [7:0]   source_valid_d; 
-reg  		 data_valid_d;
-reg  		 data_valid_d1;
- 
-//***************************************************** 
-//**                    main code 
-//*****************************************************  
- 
- 
-//å–å®éƒ¨å’Œè™šéƒ¨çš„å¹³æ–¹å’Œ 
-always @ (posedge clk or negedge rst_n) begin 
-    if(!rst_n) begin 
-        source_data <= 18'd0; 
-        data_real   <= 16'd0; 
-        data_imag   <= 16'd0; 
-    end 
+    input             clk,
+    input             rst_n,
+    // FFT ST½Ó¿Ú£¨ĞŞ¸ÄÎª16Î»ÊäÈë£©
+    input   [15:0]    source_real,   // Êµ²¿ ÓĞ·ûºÅÊı£¨²¹Âë£©
+    input   [15:0]    source_imag,   // Ğé²¿ ÓĞ·ûºÅÊı£¨²¹Âë£©
+    input             source_eop,    // Ö¡½áÊøĞÅºÅ
+    input             source_valid,  // Êı¾İÓĞĞ§ĞÅºÅ
+    
+    // È¡Ä£ÔËËã½Ó¿Ú
+    output  [15:0]    data_modulus,  // È¡Ä£½á¹û
+    output            data_eop,      // ½á¹ûÖ¡½áÊø
+    output            data_valid     // ½á¹ûÓĞĞ§ĞÅºÅ
+
+	//jhb²¿·Ö
+	input key,                       //¼ü¿ØÖØÖÃ£¬¾ÍÊÇÌâÄ¿ÀïµÄÆô¶¯¼ü£¬²»ÊÇ¸´Î»
+
+	output  reg       fft_en,		 //fftµÄÊ¹ÄÜ£¬½Óµ½Êı¾İÓĞĞ§»òÕßÊ±ÖÓÓĞĞ§¶¼ĞĞ
+    //È¡Ä£ÔËËãºóµÄÊı¾İ½Ó¿Ú 
+    output  [15:0]    data_modulus,  //È¡Ä£ºóµÄÊı¾İ 
+	output  reg  [7:0]	  wr_addr,	 //Ğ´ramµØÖ·
+	output         	  wr_en,		 //Ğ´Ê¹ÄÜ	
+	output  reg       wr_done		 //·ÖÀëÄ£¿éÊ¹ÄÜ
+
+);
+
+// ²ÎÊı¶¨Òå
+localparam DATA_WIDTH = 15;  // ÓĞĞ§Êı¾İÎ»¿í£¨·ûºÅÀ©Õ¹ºó£©
+
+// ¼Ä´æÆ÷¶¨Òå
+reg  [DATA_WIDTH-1:0] data_real;     // Êµ²¿Ô­Âë£¨ÎŞ·ûºÅ£©
+reg  [DATA_WIDTH-1:0] data_imag;     // Ğé²¿Ô­Âë£¨ÎŞ·ûºÅ£©
+reg  [2*DATA_WIDTH:0] source_data;   // Æ½·½ºÍ£¨Î»¿í2N+1£©
+reg  [7:0]            source_valid_d; // ÓĞĞ§ĞÅºÅÑÓ³ÙÁ´
+reg  [7:0]            source_eop_d;    // EOPĞÅºÅÑÓ³ÙÁ´
+
+//*****************************************************
+//**                    Ö÷ÒªÂß¼­
+//*****************************************************
+
+// ²¹Âë×ªÔ­Âë´¦Àí£¨ÊÊÅä16Î»ÊäÈë£©
+always @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+        data_real <= 0;
+        data_imag <= 0;
+    end
 	else if(!key) begin 
-        source_data <= 18'd0; 
+        source_data <= 0; 
         data_real   <= 16'd0; 
         data_imag   <= 16'd0; 
     end
-    else begin 
-        if(source_real[8]==1'b0)               //ç”±è¡¥ç è®¡ç®—åŸç  
-            data_real <= source_real[7:0]; 
-        else 
-            data_real <= ~source_real[7:0] + 1'b1; 
-             
-        if(source_imag[8]==1'b0)               //ç”±è¡¥ç è®¡ç®—åŸç  
-            data_imag <= source_imag[7:0]; 
-        else 
-            data_imag <= ~source_imag[7:0] + 1'b1;     
-                                                //è®¡ç®—åŸç å¹³æ–¹å’Œ 
-        source_data <= (data_real * data_real) + (data_imag * data_imag); 
-    end 
-end 
-   
-//å¯¹ä¿¡å·è¿›è¡Œæ‰“æ‹å»¶æ—¶å¤„ç† 
-always @ (posedge clk or negedge rst_n) begin 
-    if(!rst_n)
-        source_valid_d <= 8'd0; 
-	else if(!key)
-        source_valid_d <= 8'd0; 
-    else  
-        source_valid_d <= {source_valid_d[6:0],source_valid}; 
-end 
- 
-//ä¾‹åŒ–cordicæ¨¡å—,å¼€æ ¹å·è¿ç®— 
-cordic_0 u_cordic_0 ( 
-  .aclk(clk),           //è¾“å…¥æ—¶é’Ÿ                             
-  .s_axis_cartesian_tvalid(source_valid_d[1]),    //è¾“å…¥æ•°æ®æœ‰æ•ˆä¿¡å·
-  .s_axis_cartesian_tdata(source_data),     //è¾“å…¥æ•°æ®
-  .m_axis_dout_tvalid(data_valid),          //è¾“å‡ºæ•°æ®æœ‰æ•ˆä¿¡å·  
-  .m_axis_dout_tdata(data_modulus)          //è¾“å‡ºæ•°æ®  
-); 
- //æ•°æ®æ ¼å¼è¾“å…¥é€šé“s_axis_cartesianæºå¸¦ä¸¤ä¸ªæ ‡é‡æ“ä½œæ•°X_IN (å®æ•°)å’ŒY_INï¼ˆè™šæ•°ï¼‰ï¼Œ
- //X_INå’ŒY_INåœ¨tdataå­—æ®µä¸­æŒ‰å­—èŠ‚å¯¹é½
- //ç¬¬29è‡³48è¡Œæ˜¯å¯¹è¾“å…¥æ•°æ®è¿›è¡Œè¡¥ç åˆ°åŸç çš„è½¬æ¢ï¼ŒåŒæ—¶å¯¹è¾“å…¥æ•°æ®çš„åŸç å–å¹³æ–¹å’Œã€‚
- //ipæ ¸ä½œç”¨æ˜¯åŸç çš„å¹³æ–¹å’Œå¼€å¹³æ–¹ä»¥å¾—åˆ°å¹…å€¼ã€‚
- 
+    else begin
+        // ´¦ÀíÊµ²¿£¨·ûºÅÎ»Îª×î¸ßÎ»£©
+        data_real <= source_real[15] ? 
+                   (~source_real[DATA_WIDTH-1:0] + 1'b1) :  // ¸ºÊıÈ¡²¹
+                   source_real[DATA_WIDTH-1:0];              // ÕıÊıÖ±½ÓÈ¡
+        
+        // ´¦ÀíĞé²¿
+        data_imag <= source_imag[15] ? 
+                   (~source_imag[DATA_WIDTH-1:0] + 1'b1) : 
+                   source_imag[DATA_WIDTH-1:0];
+    end
+end
+
+// Æ½·½ºÍ¼ÆËã£¨31Î»´æ´¢£©
+always @(posedge clk or negedge rst_n) begin
+    if (!rst_n)
+        source_data <= 0;
+    else
+        source_data <= (data_real * data_real) + (data_imag * data_imag);
+end
+
+// ĞÅºÅÑÓ³ÙÁ´£¨±£³ÖÊ±Ğò¶ÔÆë£©
+always @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+        source_valid_d <= 0;
+        source_eop_d <= 0;
+    end
+    else begin
+        source_valid_d <= {source_valid_d[6:0], source_valid};
+        source_eop_d   <= {source_eop_d[6:0], source_eop};
+    end
+end
+
+// Cordic IPºË½Ó¿Ú£¨ĞèÖØĞÂÅäÖÃÎª31Î»ÊäÈë£©
+cordic_0 u_cordic_0 (
+    .aclk(clk),    // Ê±ÖÓ
+    // ÊäÈë½Ó¿Ú£¨ĞèÈ·±£IPºËÅäÖÃÖ§³Ö31Î»ÊäÈë£©
+    .s_axis_cartesian_tvalid(source_valid_d[3]),  // Ê±Ğò¶ÔÆë
+    .s_axis_cartesian_tdata(source_data),         // 31Î»Æ½·½ºÍ
+    // Êä³ö½Ó¿Ú
+    .m_axis_dout_tvalid(data_valid),
+    .m_axis_dout_tdata(data_modulus)              // 16Î»Êä³ö
+);
+
+// EOPĞÅºÅÊ±Ğò¶ÔÆë
+assign data_eop = source_eop_d[7];
+
+//jhb²¿·Ö
 assign wr_en = (wr_addr <= 128) ? data_valid : 0 ;
  
-//å†™ramæ§åˆ¶
+//Ğ´ram¿ØÖÆ
 always @ (posedge clk or negedge rst_n) begin
     if(!rst_n) 
         wr_addr  <= 8'd0;
@@ -109,7 +137,5 @@ always @ (posedge clk or negedge rst_n)
 	wr_done <= wr_done;
 	fft_en <= fft_en;
 	end
-//å–åˆ°ä¸€åŠå¤šä¸€ç‚¹å°±å…³é—­fftï¼ŒåŒæ—¶ä¸å†å†™å…¥ram
-	
-endmodule  
-
+//È¡µ½Ò»°ë¶àÒ»µã¾Í¹Ø±Õfft£¬Í¬Ê±²»ÔÙĞ´Èëram
+endmodule
