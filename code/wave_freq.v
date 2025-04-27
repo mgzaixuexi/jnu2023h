@@ -20,27 +20,33 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module wave_freq(
+module wave_freq
+    #(
+    parameter   addr_20k = 128   ,  //20kHZÆµµãÎ»ÖÃ
+    parameter   addr_100k   = 640, //100kHZÆµµãÎ»ÖÃ
+	parameter 	compare_num1 = 16,//±È½ÏãÐÖµ£¬´ý¶¨
+	parameter 	compare_num2 = 16,//±È½ÏãÐÖµ£¬´ý¶¨
+	parameter   freqlow = 5//log2(5000/fft·Ö±æÂÊ)
+    )
+	(
     input clk,
     input rst_n,
-    input en,//Ê¹ï¿½Ü£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½fftÈ¡Ä£ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ramï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-	input key,//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½
-    input [15:0] rd_data,//fftÈ¡Ä£ï¿½ï¿½ï¿½ï¿½
-    output reg [7:0] rd_addr,//ramï¿½ï¿½Ö·
-    output reg [7:0] waveA_freq,//ï¿½ï¿½AÆµï¿½Ê£ï¿½Òªï¿½ï¿½5000
-    output reg waveA_sin,//ï¿½ï¿½AÎªï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ÅºÅ£ï¿½ï¿½ï¿½ï¿½ï¿½Ð§
-    output reg [7:0] waveB_freq,//ï¿½ï¿½BÆµï¿½Ê£ï¿½Òªï¿½ï¿½5000
-    output reg waveB_sin,//ï¿½ï¿½BÎªï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ÅºÅ£ï¿½ï¿½ï¿½ï¿½ï¿½Ð§
-    output reg wave_vaild//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ÅºÅ£ï¿½ï¿½ï¿½ï¿½ï¿½Ð§
+    input en,//Ê¹ÄÜ£¬ÉÏÉýÑØÓÐÐ§£¬fftÈ¡Ä£Êý¾ÝÐ´ÈëramÍê³ÉÔÙÀ­¸ß
+	input key,//Æô¶¯°´¼ü£¬ÖØÖÃÊ¶±ð
+    input [15:0] rd_data,//fftÈ¡Ä£Êý¾Ý
+    output reg [11:0] rd_addr,//ramµØÖ·
+    output     [11:0] waveA_freq,//²¨AÆµÂÊ£¬Òª³Ë5000
+    output reg waveA_sin,//²¨AÎªÕýÏÒ²¨µÄÓÐÐ§ÐÅºÅ£¬¸ßÓÐÐ§
+    output     [11:0] waveB_freq,//²¨BÆµÂÊ£¬Òª³Ë5000
+    output reg waveB_sin,//²¨BÎªÕýÏÒ²¨µÄÓÐÐ§ÐÅºÅ£¬¸ßÓÐÐ§
+    output reg wave_vaild//Êý¾ÝÓÐÐ§ÐÅºÅ£¬¸ßÓÐÐ§
     );
     
-parameter compare_num1 = 16;//ï¿½È½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-parameter compare_num2 = 16;//ï¿½È½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 parameter idle = 6'b000_001;
-parameter find = 6'b000_010;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
-parameter overlap = 6'b000_100;//ï¿½ï¿½BÆµï¿½ï¿½ï¿½Ç²ï¿½Aï¿½ï¿½ï¿½ï¿½ÆµÊ±
-parameter trijudgeA = 6'b001_000;//ï¿½Ð¶Ï²ï¿½Aï¿½ï¿½×´
-parameter trijudgeB = 6'b010_000;//ï¿½Ð¶Ï²ï¿½Bï¿½ï¿½×´
+parameter find = 6'b000_010;//²éÕÒÁ½¸ö·åÖµ
+parameter overlap = 6'b000_100;//²¨BÆµÂÊÊÇ²¨AÈý±¶ÆµÊ±
+parameter trijudgeA = 6'b001_000;//ÅÐ¶Ï²¨AÐÎ×´
+parameter trijudgeB = 6'b010_000;//ÅÐ¶Ï²¨BÐÎ×´
 parameter done = 6'b100_000;
 
 reg [5:0] state;
@@ -49,17 +55,21 @@ reg en_d0;
 reg en_d1;
 reg [15:0] waveA_data;
 reg [15:0] waveB_data;
-reg [15:0] waveA_3ndata;//ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
-reg [15:0] waveB_3ndata;//ï¿½ï¿½Bï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
+reg [15:0] waveA_3ndata;//²¨AÈý±¶Æµ¸½½üµÄ×î´óÖµ
+reg [15:0] waveB_3ndata;//²¨BÈý±¶Æµ¸½½üµÄ×î´óÖµ
 reg [2:0] flag;
 reg key_d0;
 reg key_d1;
+reg [11:0] waveA_freq_t;
+reg [11:0] waveB_freq_t;
 
-wire [7:0] waveA_freqx3;//ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½Æµ
-wire [7:0] waveB_freqx3;//ï¿½ï¿½Bï¿½ï¿½ï¿½ï¿½Æµ
+wire [11:0] waveA_freq_tx3;//²¨AÈý±¶Æµ
+wire [11:0] waveB_freq_tx3;//²¨BÈý±¶Æµ
 
-assign waveA_freqx3 = waveA_freq * 3;
-assign waveB_freqx3 = waveB_freq * 3;
+assign waveA_freq_tx3 = waveA_freq_t * 3;
+assign waveB_freq_tx3 = waveB_freq_t * 3;
+assign waveA_freq = waveA_freq_t[11:freqlow];
+assign waveB_freq = waveB_freq_t[11:freqlow];
 
 always @(posedge clk or negedge  rst_n)begin
 	if(~rst_n)begin
@@ -91,17 +101,17 @@ always @(*) begin
 						next_state = idle;
 						
 		find		:if(flag[0])
-						if(waveB_freq == waveA_freqx3)
+						if(waveB_freq_t == waveA_freq_tx3)
 						next_state = overlap;
 						else 
 						next_state = trijudgeA;
 					else 
 						next_state = find;
-		overlap		:if(rd_addr == (waveB_freqx3 -1))
+		overlap		:if(rd_addr == (waveB_freq_tx3 -1))
 						next_state = trijudgeB;
 					else 
 						next_state = overlap;
-		trijudgeA	:if(rd_addr == (waveB_freqx3 -1))
+		trijudgeA	:if(rd_addr == (waveB_freq_tx3 -1))
 						next_state = trijudgeB;
 					else 
 						next_state = trijudgeA;
@@ -120,48 +130,48 @@ end
 		
 always @(posedge clk or negedge  rst_n)
 	if(~rst_n)begin
-	waveA_freq <= 0;
+	waveA_freq_t <= 0;
 	waveA_sin <= 0;
-	waveB_freq <= 0;
+	waveB_freq_t <= 0;
 	waveB_sin <= 0;
 	wave_vaild <= 0;
 	waveA_data <= 0;
 	waveB_data <= 0;
 	flag <= 0;
-	rd_addr <= 4;
+	rd_addr <= addr_20k-1;
 	waveA_3ndata <= 0;
 	waveB_3ndata <= 0;
 	end
 	else 
 		case(state)
 			idle		:begin
-						waveA_freq <= 0;
+						waveA_freq_t <= 0;
 						waveA_sin <= 0;
-						waveB_freq <= 0;
+						waveB_freq_t <= 0;
 						waveB_sin <= 0;
 						wave_vaild <= 0;
 						waveA_data <= 0;
 						waveB_data <= 0;
 						flag <= 0;
-						rd_addr <= 4;
+						rd_addr <= addr_20k-1;
 						end
 			find		:begin
-						if(rd_addr < 20)
+						if(rd_addr < addr_100k)
 							rd_addr <= rd_addr + 1'b1;
 						else begin
-						    rd_addr <= waveA_freqx3 - 1;
+						    rd_addr <= waveA_freq_tx3 - 1;
 						    flag[0] <= 1;
 						    end
 						if((rd_data > waveB_data) || (rd_data > waveA_data))begin
 						    waveB_data <= rd_data;
 						    waveA_data <= waveB_data;
-						    waveB_freq <= rd_addr;
-						    waveA_freq <= waveB_freq;
+						    waveB_freq_t <= rd_addr;
+						    waveA_freq_t <= waveB_freq_t;
 						    end
 						else begin
-						    waveA_freq <= waveA_freq;
+						    waveA_freq_t <= waveA_freq_t;
 							waveA_data <= waveA_data;
-							waveB_freq <= waveB_freq;
+							waveB_freq_t <= waveB_freq_t;
 							waveB_data <= waveB_data;
 						    end
 						end
@@ -170,17 +180,17 @@ always @(posedge clk or negedge  rst_n)
 							waveA_sin <= 0;
 						else 
 							waveA_sin <= 1;
-						rd_addr <= waveB_freqx3 -1;
+						rd_addr <= waveB_freq_tx3 -1;
 						end
 			trijudgeA	:begin
-						rd_addr <= waveA_freqx3 + 1;
-						if((rd_data > waveA_3ndata) && (rd_addr != waveA_freqx3) && (rd_addr != waveB_freq))
+						rd_addr <= waveA_freq_tx3 + 1;
+						if((rd_data > waveA_3ndata) && (rd_addr != waveA_freq_tx3) && (rd_addr != waveB_freq_t))
 							waveA_3ndata <= rd_data;
 						else 
 							waveA_3ndata <= waveA_3ndata;
-						if(rd_addr == (waveA_freqx3 + 1))
-							rd_addr <= waveA_freqx3;
-						if(rd_addr == waveA_freqx3)
+						if(rd_addr == (waveA_freq_tx3 + 1))
+							rd_addr <= waveA_freq_tx3;
+						if(rd_addr == waveA_freq_tx3)
 							if(((rd_data - waveA_3ndata) >= compare_num2 )&& (rd_data > waveA_3ndata))begin
 							flag[1] <= 1;
 							waveA_sin <= 0;
@@ -190,17 +200,17 @@ always @(posedge clk or negedge  rst_n)
 							waveA_sin <= 1;
 							end
 						if(flag[1])
-							rd_addr <= waveB_freqx3 - 1;
+							rd_addr <= waveB_freq_tx3 - 1;
 						end
 			trijudgeB	:begin
-						rd_addr <= waveB_freqx3 + 1;
-						if((rd_data > waveB_3ndata) && (rd_addr != waveB_freqx3))
+						rd_addr <= waveB_freq_tx3 + 1;
+						if((rd_data > waveB_3ndata) && (rd_addr != waveB_freq_tx3))
 							waveB_3ndata <= rd_data;
 						else 
 							waveB_3ndata <= waveB_3ndata;
-						if(rd_addr == (waveB_freqx3 + 1))
-							rd_addr <= waveB_freqx3;
-						if(rd_addr == waveB_freqx3)
+						if(rd_addr == (waveB_freq_tx3 + 1))
+							rd_addr <= waveB_freq_tx3;
+						if(rd_addr == waveB_freq_tx3)
 							if(((rd_data - waveB_3ndata) >= compare_num2) && (rd_data > waveB_3ndata))begin
 							flag[2] <= 1;
 							waveB_sin <= 0;
