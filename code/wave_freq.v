@@ -65,13 +65,15 @@ reg [11:0] waveB_freq_t;
 
 wire [11:0] waveA_freq_tx3;//²¨AÈý±¶Æµ
 wire [11:0] waveB_freq_tx3;//²¨BÈý±¶Æµ
+wire clk_180deg;
 
 assign waveA_freq_tx3 = waveA_freq_t * 3;
 assign waveB_freq_tx3 = waveB_freq_t * 3;
 assign waveA_freq = waveA_freq_t[11:freqlow];
 assign waveB_freq = waveB_freq_t[11:freqlow];
+assign clk_180deg = ~clk;
 
-always @(posedge clk or negedge  rst_n)begin
+always @(posedge clk_180deg or negedge  rst_n)begin
 	if(~rst_n)begin
 	en_d0 <= 0;
 	en_d1 <= 0;
@@ -86,7 +88,7 @@ always @(posedge clk or negedge  rst_n)begin
 	end
 end
 
-always @(posedge clk or negedge  rst_n)
+always @(posedge clk_180deg or negedge  rst_n)
 	if(~rst_n)
 	state <= idle;
 	else 
@@ -128,7 +130,7 @@ always @(*) begin
 end
 
 		
-always @(posedge clk or negedge  rst_n)
+always @(posedge clk_180deg or negedge  rst_n)
 	if(~rst_n)begin
 	waveA_freq_t <= 0;
 	waveA_sin <= 0;
