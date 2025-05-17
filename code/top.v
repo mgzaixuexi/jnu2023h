@@ -158,6 +158,23 @@ data_modulus u_data_modulus(
 	.wr_en(wr_en),		 //写使能	
 	.wr_done(wr_done)		 //分离模块使能
 );						
-					
+
+
+dds u_dds(
+    .sys_clk(),  //系统时钟
+    .sys_rst_n(sys_rst_n),  //系统复位，低电平有效
+    .wave_select1(wave_select1),  //波形控制
+    .wave_select2(wave_select2),  //波形控制
+    .freq_select1(freq_select1),  //频率控制
+    .freq_select2(freq_select2),  //频率控制
+    .phase_select1(phase_select1),   //相位控制
+    .phase_select2(phase_select2),   //相位控制
+    .clk_100m(clk_100m),    //100M时钟
+    //DA芯片接口
+    .da_clk_1(da_clk_1),  //DAC驱动时钟
+    .da_clk_2(da_clk_2),  //DAC驱动时钟
+    .da_data_1(da_data_1),  //输出给DA的数据
+    .da_data_2(da_data_2)    //输出给DA的数据
+    );
 					
 endmodule
