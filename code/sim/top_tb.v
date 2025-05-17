@@ -49,6 +49,8 @@ wave_select1=1'b0;
 wave_select2=1'b1;
 phase_select1=6'd0;
 phase_select2=6'd2;
+#2000
+key=4'b1;
 
  end
 
@@ -59,8 +61,15 @@ phase_select2=6'd2;
 //ROM存储波形
 rom_1000x8b u_rom_1000x8b1 (
     .clka     (clk_100m),  // input wire clka
-    .addra    (rd_addr ),  // input wire [9 : 0] addra
-    .douta    (rd_data )   // output wire [7 : 0] douta
+    .addra    (rd_addr1 ),  // input wire [9 : 0] addra
+    .douta    (rd_data1 )   // output wire [7 : 0] douta
+    );
+
+//ROM存储波形
+rom_1000x8b u_rom_1000x8b2 (
+    .clka     (clk_100m),  // input wire clka
+    .addra    (rd_addr2 ),  // input wire [9 : 0] addra
+    .douta    (rd_data2 )   // output wire [7 : 0] douta
     );
 
 da_wave_send u_da_wave_send1(
