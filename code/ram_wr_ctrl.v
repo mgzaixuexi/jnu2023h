@@ -44,7 +44,7 @@ always @(posedge clk or negedge rst_n)
 		wr_done <= 0;
 	end
 	else if (wr_addr >= addr_300k)begin
-		wr_done <= 0;
+		wr_done <= 1;
 		wr_addr <= wr_addr;
 	end
 	else if(data_valid)
