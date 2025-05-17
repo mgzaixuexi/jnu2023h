@@ -159,12 +159,26 @@ data_modulus u_data_modulus(
 	.wr_done(wr_done)		 //分离模块使能
 );						
 
+wave_freq u_wave_freq
+	(
+    .clk(),
+    .rst_n(rst_n),
+    .en(),//使能，上升沿有效，fft取模数据写入ram完成再拉高
+	.key(),//启动按键，重置识别
+    .rd_data(data_modulus),//fft取模数据
+    .rd_addr(),//ram地址
+    .waveA_freq(freq_select1),//波A频率，要乘5000
+    .waveA_sin(wave_select1),//波A为正弦波的有效信号，高有效
+    .waveB_freq(freq_select2),//波B频率，要乘5000
+    .waveB_sin(wave_select2),//波B为正弦波的有效信号，高有效
+    .wave_vaild()//数据有效信号，高有效
+    );
 
 dds u_dds(
     .sys_clk(),  //系统时钟
     .sys_rst_n(sys_rst_n),  //系统复位，低电平有效
-    .wave_select1(wave_select1),  //波形控制
-    .wave_select2(wave_select2),  //波形控制
+    .wave_select1(~wave_select1),  //波形控制
+    .wave_select2(~wave_select2),  //波形控制
     .freq_select1(freq_select1),  //频率控制
     .freq_select2(freq_select2),  //频率控制
     .phase_select1(phase_select1),   //相位控制
