@@ -2,7 +2,7 @@
 2020.2
 Nov 18 2020
 09:47:47
-C:/Users/sb/Desktop/git/jnu2023h/code/da_wave_send.v,1747746990,verilog,,C:/Users/sb/Desktop/git/jnu2023h/code/data_modulus.v,,da_wave_send,,,../../../../jnu2023h.gen/sources_1/ip/clk_wiz_0,,,,,
+C:/Users/sb/Desktop/git/jnu2023h/code/da_wave_send.v,1747756589,verilog,,C:/Users/sb/Desktop/git/jnu2023h/code/data_modulus.v,,da_wave_send,,,../../../../jnu2023h.gen/sources_1/ip/clk_wiz_0,,,,,
 C:/Users/sb/Desktop/git/jnu2023h/code/data_modulus.v,1747746990,verilog,,C:/Users/sb/Desktop/git/jnu2023h/code/dds.v,,data_modulus,,,../../../../jnu2023h.gen/sources_1/ip/clk_wiz_0,,,,,
 C:/Users/sb/Desktop/git/jnu2023h/code/dds.v,1747755378,verilog,,C:/Users/sb/Desktop/git/jnu2023h/code/ftt_clk.v,,dds,,,../../../../jnu2023h.gen/sources_1/ip/clk_wiz_0,,,,,
 C:/Users/sb/Desktop/git/jnu2023h/code/ftt_clk.v,1747746990,verilog,,C:/Users/sb/Desktop/git/jnu2023h/code/ram_wr_ctrl.v,,fft_clk,,,../../../../jnu2023h.gen/sources_1/ip/clk_wiz_0,,,,,

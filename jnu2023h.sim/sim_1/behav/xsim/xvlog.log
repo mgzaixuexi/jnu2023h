@@ -24,5 +24,5 @@ INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/sb/Desktop/git/jnu2023h/co
 INFO: [VRFC 10-311] analyzing module wave_freq
 INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/sb/Desktop/git/jnu2023h/code/sim/top_tb.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module top_tb
-INFO: [VRFC 10-2458] undeclared symbol da_clk_1, assumed default net type wire [C:/Users/sb/Desktop/git/jnu2023h/code/sim/top_tb.v:76]
-INFO: [VRFC 10-2458] undeclared symbol da_clk_2, assumed default net type wire [C:/Users/sb/Desktop/git/jnu2023h/code/sim/top_tb.v:77]
+INFO: [VRFC 10-2458] undeclared symbol da_clk_1, assumed default net type wire [C:/Users/sb/Desktop/git/jnu2023h/code/sim/top_tb.v:71]
+INFO: [VRFC 10-2458] undeclared symbol da_clk_2, assumed default net type wire [C:/Users/sb/Desktop/git/jnu2023h/code/sim/top_tb.v:72]

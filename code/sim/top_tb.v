@@ -25,11 +25,6 @@ parameter CLK_PERIOD = 20; //时钟周期 20ns  50MHz
  reg [5:0] freq_select2; //频率选择寄存器（1表示5kHZ 2表示10kHZ 以此类推）（注意不能为0）
  reg wave_select2;  //波形选择寄存器（0输出正弦波 1输出三角波）
  reg [5:0]phase_select2; //相位寄存器（0表示5° 1表示10°以此类推）
- //读rom
-//  wire[7:0]    rd_data11        ; //ROM读出的数据
-//  wire[9:0]    rd_addr11        ; //读ROM地址
-//  wire[7:0]    rd_data22        ; //ROM读出的数据
-//  wire[9:0]    rd_addr22        ; //读ROM地址
  //DA芯片接口                        
  reg                da_clk         ; //DAC驱动时钟
  wire       [7:0]    in_da_data1         ; //输入波形  
@@ -38,7 +33,7 @@ parameter CLK_PERIOD = 20; //时钟周期 20ns  50MHz
 
  //信号初始化
  initial begin
-    freq_select1=6'd3;
+    freq_select1=6'd2;
 freq_select2=6'd4;
 wave_select1=1'b0;
 wave_select2=1'b1;
