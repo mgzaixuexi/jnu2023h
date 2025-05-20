@@ -17,9 +17,9 @@ module data_modulus(
     input             source_valid,  // 数据有效信号
     
     // 取模运算接口
-    output  [15:0]    data_modulus,  // 取模结果
+    //output  [15:0]    data_modulus,  // 取模结果
     output            data_eop,      // 结果帧结束
-    output            data_valid     // 结果有效信号
+    output            data_valid,     // 结果有效信号
 
 	//jhb部分
 	input key,                       //键控重置，就是题目里的启动键，不是复位
@@ -54,7 +54,7 @@ always @(posedge clk or negedge rst_n) begin
         data_imag <= 0;
     end
 	else if(!key) begin 
-        source_data <= 0; 
+        //source_data <= 0; 
         data_real   <= 16'd0; 
         data_imag   <= 16'd0; 
     end
