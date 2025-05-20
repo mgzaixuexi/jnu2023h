@@ -73,6 +73,7 @@ end
 integer file;
 integer scan;
 reg [10:0] mix_value;  // 存储从文件读取的11位数据
+integer data_count = 0; // 数据计数器
 
 initial begin
     // 打开数据文件
@@ -87,12 +88,32 @@ initial begin
     #10;
     
     // 按1MHz频率读取数据（每1us读取一次）
-    forever begin
+    while (1) begin
         // 读取一个数据点
         scan = $fscanf(file, "%d", mix_value);
+        
+        // 检查是否到达文件末尾或读取错误
         if (scan != 1) begin
-            $display("End of file reached");
-            $finish;
+            // 重置文件指针到开头
+            $rewind(file);
+            data_count = 0;
+            $display("Reached end of file, rewinding to start...");
+            // 重新尝试读取
+            scan = $fscanf(file, "%d", mix_value);
+            if (scan != 1) begin
+                $display("File is empty!");
+                $finish;
+            end
+        end
+        
+        // 增加数据计数器
+        data_count = data_count + 1;
+        
+        // 检查是否达到9192个数据
+        if (data_count >= 9192) begin
+            $rewind(file);
+            data_count = 0;
+            $display("Reached 9192 samples, rewinding to start...");
         end
         
         // 拆分数据到两个ADC输入
@@ -114,13 +135,13 @@ initial begin
 end
 
 // 监控输出信号
-initial begin
-    $timeformat(-9, 2, " ns", 10);
-    $monitor("Time = %t: DA1 = %d, DA2 = %d", $time, da_data_1, da_data_2);
+// initial begin
+//     $timeformat(-9, 2, " ns", 10);
+//     $monitor("Time = %t: DA1 = %d, DA2 = %d", $time, da_data_1, da_data_2);
     
-    // 仿真运行时间（可根据需要调整）
-    #1000000;
-    $finish;
-end
+//     // 仿真运行时间（可根据需要调整）
+//     #100000000; // 100ms仿真时间
+//     $finish;
+// end
 
 endmodule

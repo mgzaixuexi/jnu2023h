@@ -4,13 +4,13 @@ module fft_tb;
 
 reg clk;
 reg rst_n;
-// FFT输入接口（驱动信号改为reg�?
+// FFT输入接口（驱动信号改为reg�?
 reg [15:0] fft_s_data_tdata;  // 输入数据（实部）
 reg        fft_s_data_tvalid; // 数据有效
 reg        fft_s_data_tlast;  // 数据结束标志
 
-// FFT输出接口（保持为wire�?
-wire       fft_s_data_tready; // FFT准备好接收数�?
+// FFT输出接口（保持为wire�?
+wire       fft_s_data_tready; // FFT准备好接收数�?
 wire [47:0] fft_m_data_tdata; // 频谱输出数据
 wire        fft_m_data_tvalid;
 
@@ -28,7 +28,7 @@ xfft_0 u_fft(
     .s_axis_config_tvalid(1'b1),
     .s_axis_config_tready(fft_s_config_tready),  // 悬空
 	
-    .s_axis_data_tdata({16'h0000, fft_s_data_tdata}), // 虚部�?0，实部为输入数据
+    .s_axis_data_tdata({16'h0000, fft_s_data_tdata}), // 虚部�?0，实部为输入数据
     .s_axis_data_tvalid(fft_s_data_tvalid),
     .s_axis_data_tready(fft_s_data_tready),
     .s_axis_data_tlast(fft_s_data_tlast),
@@ -56,7 +56,7 @@ reg [15:0] mem [0:127];
 integer i;
 
 initial begin
-    // 初始�?
+    // 初始�?
     clk = 0;
     rst_n = 0;
     fft_s_config_tvalid = 0;
@@ -68,10 +68,10 @@ initial begin
     rst_n = 1;
 
     // 读取数据文件（注意文件格式）
-    $readmemb("J:/vivado/project/ti/jnu2023_test/code/sim/triangle_data.txt", mem);
+    $readmemb("D:/vivado/project/ti/jnu2023_test/code/sim/triangle_data.txt", mem);
 
-    // 发�?�配置（示例配置，需根据实际�?求调整）
-    fft_s_config_tdata = 8'h01;  // 示例配置�?
+    // 发�?�配置（示例配置，需根据实际�?求调整）
+    fft_s_config_tdata = 8'h01;  // 示例配置�?
     fft_s_config_tvalid = 1'b1;
 	//fft_s_config_tready = 1'b1;
     wait(fft_s_config_tready);   // 等待配置就绪
@@ -81,14 +81,14 @@ initial begin
     // 等待数据通道就绪
     wait(fft_s_data_tready);
 
-    // 发�?�数据（AXI Stream协议�?
+    // 发�?�数据（AXI Stream协议�?
     for (i = 0; i < 128; ) begin
         @(posedge clk);
         if (fft_s_data_tready) begin
             fft_s_data_tdata <= mem[i];
             fft_s_data_tvalid <= 1'b1;
             fft_s_data_tlast <= (i == 127);
-            i <= i + 1;
+            i <= (i<127)?i + 1:0;
         end else begin
             fft_s_data_tvalid <= 1'b0; // 保持数据直到就绪
         end
@@ -114,7 +114,7 @@ initial begin
 	$finish;
 end
 
-// 生成640kHz时钟（周�?1562.5ns�?
+// 生成640kHz时钟（周�?1562.5ns�?
 always #781.25 clk = ~clk;
 
 // 监视输出数据

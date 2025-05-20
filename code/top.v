@@ -48,7 +48,7 @@ wire             clk_25m_deg120          ;  //25MHz时钟 120
 wire 			 clk_32m;
 wire 			 locked;
 wire 			 rst_n;
-wire 			 clk_640k;
+wire 			 clk_1m;
 wire [3:0] 		 key_value;				//按键值（防抖后）
 wire             wave_select1    ;  //波形控制参数
 wire             wave_select2    ;  //波形控制参数
@@ -78,10 +78,10 @@ assign  ad_clk_2 = clk_50m;
 
 	
 //fft时钟生成
-ftt_clk u_ftt_clk(
-    .clk_32m(clk_32m),
+fft_clk u_ftt_clk(
+    .sys_clk(sys_clk),
     .rst_n(rst_n),
-    .clk_640k(clk_640k)
+    .clk_1m(clk_1m)
     );
 	
 
@@ -106,14 +106,14 @@ reg        fft_s_config_tvalid;
 wire       fft_s_config_tready;
 // FFT IP核实例化
 xfft_0 u_fft(
-    .aclk(clk_640k),
+    .aclk(clk_1m),
     .aresetn(rst_n),
     .s_axis_config_tdata(8'd1),
     .s_axis_config_tvalid(1'b1),
     .s_axis_config_tready(fft_s_config_tready),  // 悬空
 	
     .s_axis_data_tdata({16'h0000, fft_s_data_tdata}), // 虚部为0，实部为输入数据
-    .s_axis_data_tvalid(fft_s_data_tvalid),
+    .s_axis_data_tvalid(1'b1),//原版本完全没逻辑就放在这里了,我不如置1
     .s_axis_data_tready(fft_s_data_tready),
     .s_axis_data_tlast(fft_s_data_tlast),
 	
@@ -143,7 +143,7 @@ wire wr_done;
 // 实部fft_m_data_tdata[15:0],   是否为有符号数仍需进一步验证
 // 虚部fft_m_data_tdata[31:16]); 
 data_modulus u_data_modulus(
-	.clk(clk_640k),
+	.clk(sys_clk),
 	.rst_n(rst_n),
 	.key(key_value[0]),                       //键控重置，就是题目里的启动键，不是复位
 	//FFT ST接口 
