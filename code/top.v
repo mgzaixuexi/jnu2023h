@@ -48,7 +48,7 @@ wire             clk_25m_deg120          ;  //25MHz时钟 120
 wire 			 clk_32m;
 wire 			 locked;
 wire 			 rst_n;
-wire 			 clk_1m;
+wire 			 clk_640k;
 wire [3:0] 		 key_value;				//按键值（防抖后）
 wire             wave_select1    ;  //波形控制参数
 wire             wave_select2    ;  //波形控制参数
