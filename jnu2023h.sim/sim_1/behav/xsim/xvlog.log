@@ -1,0 +1,28 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/sb/Desktop/git/jnu2023h/jnu2023h.gen/sources_1/ip/rom_1000x8b/sim/rom_1000x8b.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module rom_1000x8b
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/sb/Desktop/git/jnu2023h/jnu2023h.gen/sources_1/ip/ram_4096x16/sim/ram_4096x16.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ram_4096x16
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/sb/Desktop/git/jnu2023h/jnu2023h.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_clk_wiz.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module clk_wiz_0_clk_wiz
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/sb/Desktop/git/jnu2023h/jnu2023h.gen/sources_1/ip/clk_wiz_0/clk_wiz_0.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module clk_wiz_0
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/sb/Desktop/git/jnu2023h/code/da_wave_send.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module da_wave_send
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/sb/Desktop/git/jnu2023h/code/data_modulus.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module data_modulus
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/sb/Desktop/git/jnu2023h/code/dds.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module dds
+WARNING: [VRFC 10-986] literal value truncated to fit in 20 bits [C:/Users/sb/Desktop/git/jnu2023h/code/dds.v:42]
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/sb/Desktop/git/jnu2023h/code/ftt_clk.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module fft_clk
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/sb/Desktop/git/jnu2023h/code/ram_wr_ctrl.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ram_wr_ctrl
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/sb/Desktop/git/jnu2023h/code/top.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module top
+INFO: [VRFC 10-2458] undeclared symbol data_valid, assumed default net type wire [C:/Users/sb/Desktop/git/jnu2023h/code/top.v:159]
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/sb/Desktop/git/jnu2023h/code/wave_freq.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module wave_freq
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/sb/Desktop/git/jnu2023h/code/sim/top_tb.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module top_tb
+INFO: [VRFC 10-2458] undeclared symbol da_clk_1, assumed default net type wire [C:/Users/sb/Desktop/git/jnu2023h/code/sim/top_tb.v:76]
+INFO: [VRFC 10-2458] undeclared symbol da_clk_2, assumed default net type wire [C:/Users/sb/Desktop/git/jnu2023h/code/sim/top_tb.v:77]

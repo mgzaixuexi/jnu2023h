@@ -1,0 +1,7 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"../../../../jnu2023h.gen/sources_1/ip/cordic_0_1/sim/cordic_0.vhd" \
+"../../../../jnu2023h.gen/sources_1/ip/xfft_0/sim/xfft_0.vhd" \
+
+# Do not sort compile order
+nosort

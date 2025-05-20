@@ -1,0 +1,20 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  --include "../../../../jnu2023h.gen/sources_1/ip/clk_wiz_0" \
+"../../../../jnu2023h.gen/sources_1/ip/rom_1000x8b/sim/rom_1000x8b.v" \
+"../../../../jnu2023h.gen/sources_1/ip/ram_4096x16/sim/ram_4096x16.v" \
+"../../../../jnu2023h.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_clk_wiz.v" \
+"../../../../jnu2023h.gen/sources_1/ip/clk_wiz_0/clk_wiz_0.v" \
+"../../../../code/da_wave_send.v" \
+"../../../../code/data_modulus.v" \
+"../../../../code/dds.v" \
+"../../../../code/ftt_clk.v" \
+"../../../../code/ram_wr_ctrl.v" \
+"../../../../code/top.v" \
+"../../../../code/wave_freq.v" \
+"../../../../code/sim/top_tb.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

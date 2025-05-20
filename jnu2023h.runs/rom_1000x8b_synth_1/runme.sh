@@ -24,7 +24,7 @@ else
 fi
 export LD_LIBRARY_PATH
 
-HD_PWD='C:/Users/sb/Desktop/git/jnu2023h/jnu2023h/jnu2023h.runs/rom_1000x8b_synth_1'
+HD_PWD='C:/Users/sb/Desktop/git/jnu2023h/jnu2023h.runs/rom_1000x8b_synth_1'
 cd "$HD_PWD"
 
 HD_LOG=runme.log

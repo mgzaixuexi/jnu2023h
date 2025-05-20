@@ -1,0 +1,19 @@
+0.7
+2020.2
+Nov 18 2020
+09:47:47
+C:/Users/sb/Desktop/git/jnu2023h/code/da_wave_send.v,1747746990,verilog,,C:/Users/sb/Desktop/git/jnu2023h/code/data_modulus.v,,da_wave_send,,,../../../../jnu2023h.gen/sources_1/ip/clk_wiz_0,,,,,
+C:/Users/sb/Desktop/git/jnu2023h/code/data_modulus.v,1747746990,verilog,,C:/Users/sb/Desktop/git/jnu2023h/code/dds.v,,data_modulus,,,../../../../jnu2023h.gen/sources_1/ip/clk_wiz_0,,,,,
+C:/Users/sb/Desktop/git/jnu2023h/code/dds.v,1747755378,verilog,,C:/Users/sb/Desktop/git/jnu2023h/code/ftt_clk.v,,dds,,,../../../../jnu2023h.gen/sources_1/ip/clk_wiz_0,,,,,
+C:/Users/sb/Desktop/git/jnu2023h/code/ftt_clk.v,1747746990,verilog,,C:/Users/sb/Desktop/git/jnu2023h/code/ram_wr_ctrl.v,,fft_clk,,,../../../../jnu2023h.gen/sources_1/ip/clk_wiz_0,,,,,
+C:/Users/sb/Desktop/git/jnu2023h/code/ram_wr_ctrl.v,1747746990,verilog,,C:/Users/sb/Desktop/git/jnu2023h/code/top.v,,ram_wr_ctrl,,,../../../../jnu2023h.gen/sources_1/ip/clk_wiz_0,,,,,
+C:/Users/sb/Desktop/git/jnu2023h/code/sim/top_tb.v,1747756108,verilog,,,,top_tb,,,../../../../jnu2023h.gen/sources_1/ip/clk_wiz_0,,,,,
+C:/Users/sb/Desktop/git/jnu2023h/code/top.v,1747746990,verilog,,C:/Users/sb/Desktop/git/jnu2023h/code/wave_freq.v,,top,,,../../../../jnu2023h.gen/sources_1/ip/clk_wiz_0,,,,,
+C:/Users/sb/Desktop/git/jnu2023h/code/wave_freq.v,1747746990,verilog,,C:/Users/sb/Desktop/git/jnu2023h/code/sim/top_tb.v,,wave_freq,,,../../../../jnu2023h.gen/sources_1/ip/clk_wiz_0,,,,,
+C:/Users/sb/Desktop/git/jnu2023h/jnu2023h.gen/sources_1/ip/clk_wiz_0/clk_wiz_0.v,1747746990,verilog,,C:/Users/sb/Desktop/git/jnu2023h/code/da_wave_send.v,,clk_wiz_0,,,../../../../jnu2023h.gen/sources_1/ip/clk_wiz_0,,,,,
+C:/Users/sb/Desktop/git/jnu2023h/jnu2023h.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_clk_wiz.v,1747746990,verilog,,C:/Users/sb/Desktop/git/jnu2023h/jnu2023h.gen/sources_1/ip/clk_wiz_0/clk_wiz_0.v,,clk_wiz_0_clk_wiz,,,../../../../jnu2023h.gen/sources_1/ip/clk_wiz_0,,,,,
+C:/Users/sb/Desktop/git/jnu2023h/jnu2023h.gen/sources_1/ip/cordic_0_1/sim/cordic_0.vhd,1747753746,vhdl,,,,cordic_0,,,,,,,,
+C:/Users/sb/Desktop/git/jnu2023h/jnu2023h.gen/sources_1/ip/ram_4096x16/sim/ram_4096x16.v,1747754678,verilog,,C:/Users/sb/Desktop/git/jnu2023h/jnu2023h.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_clk_wiz.v,,ram_4096x16,,,../../../../jnu2023h.gen/sources_1/ip/clk_wiz_0,,,,,
+C:/Users/sb/Desktop/git/jnu2023h/jnu2023h.gen/sources_1/ip/rom_1000x8b/sim/rom_1000x8b.v,1747753380,verilog,,C:/Users/sb/Desktop/git/jnu2023h/jnu2023h.gen/sources_1/ip/ram_4096x16/sim/ram_4096x16.v,,rom_1000x8b,,,../../../../jnu2023h.gen/sources_1/ip/clk_wiz_0,,,,,
+C:/Users/sb/Desktop/git/jnu2023h/jnu2023h.gen/sources_1/ip/xfft_0/sim/xfft_0.vhd,1747753994,vhdl,,,,xfft_0,,,,,,,,
+C:/Users/sb/Desktop/git/jnu2023h/jnu2023h.sim/sim_1/behav/xsim/glbl.v,1605673889,verilog,,,,glbl,,,,,,,,

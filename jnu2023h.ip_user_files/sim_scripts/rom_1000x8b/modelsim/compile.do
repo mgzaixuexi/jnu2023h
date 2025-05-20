@@ -10,6 +10,7 @@ vmap blk_mem_gen_v8_4_4 modelsim_lib/msim/blk_mem_gen_v8_4_4
 vmap xil_defaultlib modelsim_lib/msim/xil_defaultlib
 
 vlog -work xpm  -incr -sv \
+"E:/Xilinx/Vivado/2020.2/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv" \
 "E:/Xilinx/Vivado/2020.2/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv" \
 
 vcom -work xpm  -93 \
@@ -20,7 +21,6 @@ vlog -work blk_mem_gen_v8_4_4  -incr \
 
 vlog -work xil_defaultlib  -incr \
 "../../../../jnu2023h.gen/sources_1/ip/rom_1000x8b/sim/rom_1000x8b.v" \
-
 
 vlog -work xil_defaultlib \
 "glbl.v"

@@ -1,0 +1,31 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Sat Apr 19 16:07:41 2025
+# Process ID: 3724
+# Current directory: H:/fpga/2023h/jnu2023h
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent17536 H:\fpga\2023h\jnu2023h\jnu2023h.xpr
+# Log file: H:/fpga/2023h/jnu2023h/vivado.log
+# Journal file: H:/fpga/2023h/jnu2023h\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project H:/fpga/2023h/jnu2023h/jnu2023h.xpr
+CRITICAL WARNING: [Project 1-19] Could not find the file 'H:/git²Ö¿â/jnu2023h-2/code/data_modulus.v'.
+CRITICAL WARNING: [Project 1-19] Could not find the file 'H:/git²Ö¿â/jnu2023h-2/code/da_wave_send.v'.
+CRITICAL WARNING: [Project 1-19] Could not find the file 'H:/git²Ö¿â/jnu2023h-2/code/key_debounce.v'.
+CRITICAL WARNING: [Project 1-19] Could not find the file 'H:/git²Ö¿â/jnu2023h-2/code/ftt_clk.v'.
+CRITICAL WARNING: [Project 1-19] Could not find the file 'H:/git²Ö¿â/jnu2023h-2/code/dds.v'.
+CRITICAL WARNING: [Project 1-19] Could not find the file 'H:/git²Ö¿â/jnu2023h-2/code/wave_freq.v'.
+CRITICAL WARNING: [Project 1-19] Could not find the file 'H:/fpga/2023h/jnu2023h/doc/am.xdc'.
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'H:/fpga/Vivado/Vivado/2020.2/data/ip'.
+WARNING: [IP_Flow 19-2162] IP 'cordic_0' is locked:
+* IP definition 'CORDIC (6.0)' for IP 'cordic_0' (customized with software release 2021.2) has a different revision in the IP Catalog.
+update_compile_order -fileset sources_1
+add_files -fileset constrs_1 -norecurse H:/fpga/2023h/jnu2023h/ÐÅÏ¢ÎÄ¼þ/am.xdc
+export_ip_user_files -of_objects  [get_files H:/fpga/2023h/jnu2023h/doc/am.xdc] -no_script -reset -force -quiet
+remove_files  -fileset constrs_1 H:/fpga/2023h/jnu2023h/doc/am.xdc
