@@ -4,6 +4,7 @@ module top_tb;
 
 // 输入信号
 reg          sys_clk;
+reg          clk_1m;
 reg          sys_rst_n;
 reg  [3:0]   key;
 reg  [9:0]   ad_data_1;
@@ -23,6 +24,7 @@ wire [7:0]   da_data_2;
 
 // 系统时钟参数
 localparam SYS_CLK_PERIOD = 20;  // 50MHz时钟，周期20ns
+localparam SYS_CLK_PERIOD2 = 1000;  // 1MHz时钟，周期1us
 
 // 实例化顶层模块
 top u_top(
@@ -43,10 +45,17 @@ top u_top(
     .da_data_2  (da_data_2)
 );
 
+
+
 // 生成系统时钟
 initial begin
     sys_clk = 1'b0;
     forever #(SYS_CLK_PERIOD/2) sys_clk = ~sys_clk;
+end
+// 生成1m时钟
+initial begin
+    clk_1m = 1'b0;
+    forever #(SYS_CLK_PERIOD2/2) clk_1m = ~clk_1m;
 end
 
 // 初始化与复位
@@ -69,69 +78,31 @@ initial begin
     key = 4'b0000;
 end
 
-// 从文件读取数据并驱动ADC输入
-integer file;
-integer scan;
-reg [10:0] mix_value;  // 存储从文件读取的11位数据
-integer data_count = 0; // 数据计数器
+// 读取文件中的数据
+reg [15:0] mem [0:4095];
+integer i;
 
 initial begin
-    // 打开数据文件
-    file = $fopen("D:/vivado/project/ti/jnu2023h/code/sim/top_triangle_data.txt", "r");
-    if (file == 0) begin
-        $display("Error opening file!");
-        $finish;
-    end
-    
-    // 等待复位完成
+    // 读取数据文件（注意文件格式）
+    $readmemb("D:/vivado/project/ti/jnu2023_test/code/sim/top_triangle_data.txt", mem);
+
+    // 等待系统初始化完成
     wait(sys_rst_n == 1);
-    #10;
-    
-    // 按1MHz频率读取数据（每1us读取一次）
-    while (1) begin
-        // 读取一个数据点
-        scan = $fscanf(file, "%d", mix_value);
-        
-        // 检查是否到达文件末尾或读取错误
-        if (scan != 1) begin
-            // 重置文件指针到开头
-            $rewind(file);
-            data_count = 0;
-            $display("Reached end of file, rewinding to start...");
-            // 重新尝试读取
-            scan = $fscanf(file, "%d", mix_value);
-            if (scan != 1) begin
-                $display("File is empty!");
-                $finish;
-            end
-        end
-        
-        // 增加数据计数器
-        data_count = data_count + 1;
-        
-        // 检查是否达到9192个数据
-        if (data_count >= 9192) begin
-            $rewind(file);
-            data_count = 0;
-            $display("Reached 9192 samples, rewinding to start...");
-        end
-        
-        // 拆分数据到两个ADC输入
-        if (mix_value <= 1023) begin
-            ad_data_1 = mix_value[9:0];
-            ad_data_2 = 0;
-        end
-        else begin
-            ad_data_1 = 10'd1023;
-            ad_data_2 = mix_value - 10'd1023;
-            // 确保不超过ADC量程
-            if (ad_data_2 > 1023)
-                ad_data_2 = 10'd1023;
-        end
-        
-        // 保持数据1us（50个时钟周期）
-        repeat(50) @(posedge sys_clk);
+    #100;    // 发�?�数据（AXI Stream协议�?
+    // 数据发送
+    i = 0;  // 显式初始化
+    forever begin
+        @(posedge clk_1m);  // 等待真实的1MHz时钟
+        ad_data_1 = mem[i];
+        i = (i < 4095) ? i + 1 : 0;
+        // 添加终止条件（示例）
+        if (i == 9000) $finish;  // 测试时限制循环次数
     end
+    // 等待FFT处理完成（根据实际情况调整延时）
+    #2000000;
+	$finish;    
+
+    
 end
 
 // 监控输出信号
