@@ -63,8 +63,8 @@ assign mix_signal = ad_data_1 + ad_data_2;  //加法混合信号
 assign rst_n =  sys_rst_n && locked;
 assign  ad_oe_1 =  1'b0;
 assign  ad_oe_2 =  1'b0;
-assign  ad_clk_1 = clk_50m;
-assign  ad_clk_2 = clk_50m;
+assign  ad_clk_1 = clk_640k;
+assign  ad_clk_2 = clk_640k;
 
 //PLL IP核
  clk_wiz_0 u_clk_wiz_0(
@@ -79,9 +79,9 @@ assign  ad_clk_2 = clk_50m;
 	
 //fft时钟生成
 fft_clk u_ftt_clk(
-    .sys_clk(sys_clk),
+    .clk_32m(clk_32m),
     .rst_n(rst_n),
-    .clk_1m(clk_1m)
+    .clk_640k(clk_640k)
     );
 	
 
@@ -106,7 +106,7 @@ reg        fft_s_config_tvalid;
 wire       fft_s_config_tready;
 // FFT IP核实例化
 xfft_0 u_fft(
-    .aclk(clk_1m),
+    .aclk(clk_640k),
     .aresetn(rst_n),
     .s_axis_config_tdata(8'd1),
     .s_axis_config_tvalid(1'b1),
@@ -137,46 +137,78 @@ xfft_0 u_fft(
 
 wire fft_en;
 wire [15:0] data_modulus;
-wire [7:0] wr_addr;
+wire [15:0] wr_data;
+wire [11:0] wr_addr;
 wire wr_en;
 wire wr_done;
+
 // 实部fft_m_data_tdata[15:0],   是否为有符号数仍需进一步验证
 // 虚部fft_m_data_tdata[31:16]); 
+//eop信号都是不要的，全部悬空
 data_modulus u_data_modulus(
-	.clk(sys_clk),
+	.clk(clk_50m),
 	.rst_n(rst_n),
-	.key(key_value[0]),                       //键控重置，就是题目里的启动键，不是复位
+	//.key(key_value[0]),                       //键控重置，就是题目里的启动键，不是复位
 	//FFT ST接口 
     .source_real(fft_m_data_tdata[15:0]),   //实部 有符号数 
     .source_imag(fft_m_data_tdata[31:16]),   //虚部 有符号数 
-	
-    .source_valid(),  //输出有效信号，FFT变换完成后，此信号置高 
-	.fft_en(fft_en),		 //fft的使能，接到数据有效或者时钟有效都行
+	.source_eop(),
+    .source_valid(fft_m_data_tvalid),  //输出有效信号，FFT变换完成后，此信号置高 
+	.data_modulus(data_modulus),  // 取模结果
+	.data_eop(),      // 结果帧结束
+	.data_valid(data_valid)     // 结果有效信号
+/* 	.fft_en(fft_en)		 //fft的使能，接到数据有效或者时钟有效都行
     //取模运算后的数据接口 
     .data_modulus(data_modulus),  //取模后的数据 
 	.wr_addr(wr_addr),	 //写ram地址
 	.wr_en(wr_en),		 //写使能	
-	.wr_done(wr_done)		 //分离模块使能
-);						
+	.wr_done(wr_done)		 //分离模块使能 */
+);
+						
+ram_wr_ctrl u_ram_wr_ctrl(
+	.clk(clk_640k),//fft时钟
+	.rst_n(rst_n),//复位，接（rst_n&key）key是启动键
+	.data_modulus(data_modulus),    
+    .data_valid(data_valid),
+	.wr_data(wr_data),
+	.wr_addr(wr_addr),
+	.wr_en(wr_en),
+	.wr_done(wr_done),
+	.fft_shutdown(fft_en)//关闭fft，高有效
+);
+
+wire [11:0] rd_addr;
+wire [15:0] rd_data;
+wire wave_vaild;
+
+ram_4096x16 u_ram_4096x16 (
+  .clka(clk_640k),    // fft时钟
+  .wea(wr_en),      // input wire [0 : 0] wea
+  .addra(wr_addr),  // input wire [11 : 0] addra
+  .dina(wr_data),    // input wire [15 : 0] dina
+  .clkb(clk_50m),    // 分离模块时钟
+  .addrb(rd_addr),  // input wire [11 : 0] addrb
+  .doutb(rd_data)  // output wire [15 : 0] doutb
+);
 
 wave_freq u_wave_freq
 	(
-    .clk(),
+    .clk(clk_50m),
     .rst_n(rst_n),
-    .en(),//使能，上升沿有效，fft取模数据写入ram完成再拉高
-	.key(),//启动按键，重置识别
-    .rd_data(data_modulus),//fft取模数据
-    .rd_addr(),//ram地址
+    .en(wr_done),//使能，上升沿有效，fft取模数据写入ram完成再拉高
+	.key(1'b1),//启动按键，重置识别
+    .rd_data(rd_data),//fft取模数据
+    .rd_addr(rd_addr),//ram地址
     .waveA_freq(freq_select1),//波A频率，要乘5000
     .waveA_sin(wave_select1),//波A为正弦波的有效信号，高有效
     .waveB_freq(freq_select2),//波B频率，要乘5000
     .waveB_sin(wave_select2),//波B为正弦波的有效信号，高有效
-    .wave_vaild()//数据有效信号，高有效
+    .wave_vaild(wave_vaild)//数据有效信号，高有效
     );
 
 dds u_dds(
-    .sys_clk(),  //系统时钟
-    .sys_rst_n(sys_rst_n),  //系统复位，低电平有效
+    .sys_clk(clk_50m),  //系统时钟
+    .sys_rst_n(rst_n&wave_vaild),  //系统复位，低电平有效
     .wave_select1(~wave_select1),  //波形控制
     .wave_select2(~wave_select2),  //波形控制
     .freq_select1(freq_select1),  //频率控制

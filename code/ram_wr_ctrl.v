@@ -30,20 +30,21 @@ module ram_wr_ctrl
     input            	 data_valid,
 	output     [15:0]	 wr_data,
 	output reg [11:0]	 wr_addr,
-	output 			 	 wr_en,//端口A使能
+	output 			 	 wr_en,//写使能
 	output reg 			 wr_done,
-	output reg 			 fft_shutdown//关闭fft，高有效
+	output  			 fft_shutdown//关闭fft，高有效
 );
 
 assign wr_data = data_modulus;
-assign wr_en = data_valid;
+assign wr_en = (wr_addr >= addr_300k + 1'b1) ? 1'b0 : 1'b1;
+assign fft_shutdown = wr_done;
 
 always @(posedge clk or negedge rst_n)
     if (!rst_n)begin
 		wr_addr <= 0;
 		wr_done <= 0;
 	end
-	else if (wr_addr >= addr_300k)begin
+	else if (wr_addr >= addr_300k + 1'b1)begin
 		wr_done <= 1;
 		wr_addr <= wr_addr;
 	end
@@ -54,13 +55,7 @@ always @(posedge clk or negedge rst_n)
 		wr_done <= wr_done;
 	end
 	
-always @(posedge clk or negedge rst_n)
-    if (!rst_n)
-		fft_shutdown <= 0;
-	else if(wr_done)
-		fft_shutdown <= 1;
-	else 
-		fft_shutdown <= fft_shutdown;
+
 		
 endmodule
 	

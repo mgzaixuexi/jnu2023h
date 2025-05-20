@@ -20,40 +20,40 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-// module fft_clk(
-//     input sys_clk,
-//     input rst_n,
-//     output clk_1m
-//     );
+module fft_clk(
+    input clk_32m,
+    input rst_n,
+    output clk_640k
+    );
     
-// reg [5:0] clk_cnt;
-// reg clk_640k_t;
+reg [5:0] clk_cnt;
+reg clk_640k_t;
 
-// always @(posedge clk_32m or negedge rst_n)begin
-//     if(~rst_n)
-//     clk_cnt<=0;
-//     else if(clk_cnt==50-1)
-//     clk_cnt<=0;
-//     else clk_cnt<=clk_cnt+1'b1;
+always @(posedge clk_32m or negedge rst_n)begin
+    if(~rst_n)
+    clk_cnt<=0;
+    else if(clk_cnt==50-1)
+    clk_cnt<=0;
+    else clk_cnt<=clk_cnt+1'b1;
     
-//     if(~rst_n)
-//     clk_640k_t<=0;
-//     else if(clk_cnt==50-1)
-//     clk_640k_t<=~clk_640k_t;
-//     else clk_640k_t<=clk_640k_t;
+    if(~rst_n)
+    clk_640k_t<=0;
+    else if(clk_cnt==50-1)
+    clk_640k_t<=~clk_640k_t;
+    else clk_640k_t<=clk_640k_t;
     
-// end    
+end    
 
-//    BUFG BUFG_inst (
-//       .O(clk_640k), // 1-bit output: Clock output
-//       .I(clk_640k_t)  // 1-bit input: Clock input
-//    );
+   BUFG BUFG_inst (
+      .O(clk_640k), // 1-bit output: Clock output
+      .I(clk_640k_t)  // 1-bit input: Clock input
+   );
    
-// endmodule
+endmodule
 
 
 
-//林睦版本
+/* //林睦版本
 module fft_clk(
     input       sys_clk,    // 50MHz系统时钟输入
     input       rst_n,      // 低电平有效复位信号
@@ -91,4 +91,4 @@ always @(posedge sys_clk or negedge rst_n) begin
     end
 end
 
-endmodule
+endmodule */
