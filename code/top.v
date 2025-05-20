@@ -136,7 +136,7 @@ xfft_0 u_fft(
 );
 
 wire fft_en;
-wire [32:0] data_modulus;
+wire [15:0] data_modulus;
 wire [7:0] wr_addr;
 wire wr_en;
 wire wr_done;
