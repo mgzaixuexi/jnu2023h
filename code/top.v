@@ -49,6 +49,7 @@ wire 			 clk_32m;
 wire 			 locked;
 wire 			 rst_n;
 wire 			 clk_640k;
+wire             clk_1m;
 wire [3:0] 		 key_value;				//按键值（防抖后）
 wire             wave_select1    ;  //波形控制参数
 wire             wave_select2    ;  //波形控制参数
@@ -79,9 +80,11 @@ assign  ad_clk_2 = clk_640k;
 	
 //fft时钟生成
 fft_clk u_ftt_clk(
+    .sys_clk(sys_clk),
     .clk_32m(clk_32m),
     .rst_n(rst_n),
-    .clk_640k(clk_640k)
+    .clk_640k(clk_640k),
+    .clk_1m(clk_1m)
     );
 	
 

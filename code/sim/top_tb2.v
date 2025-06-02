@@ -5,6 +5,7 @@ module top_tb;
 // 输入信号
 reg          sys_clk;
 reg          clk_1m;
+reg          clk_640k;
 reg          sys_rst_n;
 reg  [3:0]   key;
 reg  [9:0]   ad_data_1;
@@ -25,6 +26,7 @@ wire [7:0]   da_data_2;
 // 系统时钟参数
 localparam SYS_CLK_PERIOD = 20;  // 50MHz时钟，周期20ns
 localparam SYS_CLK_PERIOD2 = 1000;  // 1MHz时钟，周期1us
+localparam SYS_CLK_PERIOD3 = 1562;  // 640KHz时钟，周期1562.5ns，误差为懒得算。
 
 // 实例化顶层模块
 top u_top(
@@ -57,6 +59,11 @@ initial begin
     clk_1m = 1'b0;
     forever #(SYS_CLK_PERIOD2/2) clk_1m = ~clk_1m;
 end
+// 生成1m时钟
+initial begin
+    clk_640k = 1'b0;
+    forever #(SYS_CLK_PERIOD3/2) clk_640k = ~clk_640k;
+end
 
 // 初始化与复位
 initial begin
@@ -84,20 +91,30 @@ integer i;
 
 initial begin
     // 读取数据文件（注意文件格式）
-    $readmemb("D:/vivado/project/ti/jnu2023_test/code/sim/top_triangle_data.txt", mem);
+    $readmemb("D:/vivado/project/ti/jnu2023_test/code/sim/sine_wave_5kHz_unsigned.txt", mem);
 
     // 等待系统初始化完成
     wait(sys_rst_n == 1);
     #100;    // 发�?�数据（AXI Stream协议�?
     // 数据发送
     i = 0;  // 显式初始化
-    forever begin
-        @(posedge clk_1m);  // 等待真实的1MHz时钟
-        ad_data_1 = mem[i];
-        i = (i < 4095) ? i + 1 : 0;
-        // 添加终止条件（示例）
-        if (i == 9000) $finish;  // 测试时限制循环次数
-    end
+    // forever begin
+    //     @(posedge clk_1m);  // 等待真实的1MHz时钟
+    //     //ad_data_1 = mem[i];
+    //     i = (i < 4095) ? i + 1 : 0;
+    //     // 添加终止条件（示例）
+    //     if (i == 9000) $finish;  // 测试时限制循环次数
+    // end
+
+    // // 在640kHz时钟下读取数据
+    // forever begin
+    //     @(posedge clk_640k);  // 等待真实的1MHz时钟
+    //     ad_data_1 = mem[i];
+    // end
+
+
+
+
     // 等待FFT处理完成（根据实际情况调整延时）
     #2000000;
 	$finish;    
@@ -114,5 +131,21 @@ end
 //     #100000000; // 100ms仿真时间
 //     $finish;
 // end
+// 在1MHz时钟下更新i
+always @(posedge clk_1m or negedge sys_rst_n) begin
+    if (!sys_rst_n) begin
+        i <= 0;
+    end else begin
+        i <= (i < 4002) ? i + 1 : 0;
+    end
+end
 
+// 在640kHz时钟下读取数据
+always @(posedge clk_640k or negedge sys_rst_n) begin
+    if (!sys_rst_n) begin
+        ad_data_1 <= 10'b0;
+    end else begin
+        ad_data_1 <= mem[i][9:0]; // 确保只取低10位
+    end
+end
 endmodule
