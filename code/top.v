@@ -66,6 +66,16 @@ assign  ad_oe_1 =  1'b0;
 assign  ad_oe_2 =  1'b0;
 assign  ad_clk_1 = clk_640k;
 assign  ad_clk_2 = clk_640k;
+assign phase_select1=0;
+assign phase_select2=0;
+
+key_debounce u_key_debounce(
+    . clk(sys_clk),
+    . rst_n(sys_rst_n),
+    .  key(key),
+    . key_value(key_value)
+);
+
 
 //PLL IP核
  clk_wiz_0 u_clk_wiz_0(

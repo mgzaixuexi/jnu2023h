@@ -1,0 +1,38 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Mon Jun  2 20:03:37 2025
+# Process ID: 8600
+# Current directory: C:/Users/sb/Desktop/git/jnu2023h
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent2288 C:\Users\sb\Desktop\git\jnu2023h\jnu2023h.xpr
+# Log file: C:/Users/sb/Desktop/git/jnu2023h/vivado.log
+# Journal file: C:/Users/sb/Desktop/git/jnu2023h\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project C:/Users/sb/Desktop/git/jnu2023h/jnu2023h.xpr
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'E:/Xilinx/Vivado/2020.2/data/ip'.
+WARNING: [IP_Flow 19-3664] IP 'rom_1000x8b' generated file not found 'c:/Users/sb/Desktop/git/jnu2023h/jnu2023h.gen/sources_1/ip/rom_1000x8b/rom_1000x8b.dcp'. Please regenerate to continue.
+WARNING: [IP_Flow 19-3664] IP 'rom_1000x8b' generated file not found 'c:/Users/sb/Desktop/git/jnu2023h/jnu2023h.gen/sources_1/ip/rom_1000x8b/rom_1000x8b_stub.v'. Please regenerate to continue.
+WARNING: [IP_Flow 19-3664] IP 'rom_1000x8b' generated file not found 'c:/Users/sb/Desktop/git/jnu2023h/jnu2023h.gen/sources_1/ip/rom_1000x8b/rom_1000x8b_stub.vhdl'. Please regenerate to continue.
+WARNING: [IP_Flow 19-3664] IP 'rom_1000x8b' generated file not found 'c:/Users/sb/Desktop/git/jnu2023h/jnu2023h.gen/sources_1/ip/rom_1000x8b/rom_1000x8b_sim_netlist.v'. Please regenerate to continue.
+WARNING: [IP_Flow 19-3664] IP 'rom_1000x8b' generated file not found 'c:/Users/sb/Desktop/git/jnu2023h/jnu2023h.gen/sources_1/ip/rom_1000x8b/rom_1000x8b_sim_netlist.vhdl'. Please regenerate to continue.
+WARNING: [IP_Flow 19-3664] IP 'xfft_0' generated file not found 'c:/Users/sb/Desktop/git/jnu2023h/jnu2023h.gen/sources_1/ip/xfft_0/xfft_0.dcp'. Please regenerate to continue.
+WARNING: [IP_Flow 19-3664] IP 'xfft_0' generated file not found 'c:/Users/sb/Desktop/git/jnu2023h/jnu2023h.gen/sources_1/ip/xfft_0/xfft_0_stub.v'. Please regenerate to continue.
+WARNING: [IP_Flow 19-3664] IP 'xfft_0' generated file not found 'c:/Users/sb/Desktop/git/jnu2023h/jnu2023h.gen/sources_1/ip/xfft_0/xfft_0_stub.vhdl'. Please regenerate to continue.
+WARNING: [IP_Flow 19-3664] IP 'xfft_0' generated file not found 'c:/Users/sb/Desktop/git/jnu2023h/jnu2023h.gen/sources_1/ip/xfft_0/xfft_0_sim_netlist.v'. Please regenerate to continue.
+WARNING: [IP_Flow 19-3664] IP 'xfft_0' generated file not found 'c:/Users/sb/Desktop/git/jnu2023h/jnu2023h.gen/sources_1/ip/xfft_0/xfft_0_sim_netlist.vhdl'. Please regenerate to continue.
+open_project: Time (s): cpu = 00:00:16 ; elapsed = 00:00:08 . Memory (MB): peak = 1140.625 ; gain = 0.000
+update_compile_order -fileset sources_1
+launch_simulation
+Command: launch_simulation 
+boost::filesystem::remove: 另一个程序正在使用此文件，进程无法访问。: "C:/Users/sb/Desktop/git/jnu2023h/jnu2023h.sim/sim_1/behav/xsim/simulate.log"
+launch_simulation
+Command: launch_simulation 
+boost::filesystem::remove: 另一个程序正在使用此文件，进程无法访问。: "C:/Users/sb/Desktop/git/jnu2023h/jnu2023h.sim/sim_1/behav/xsim/simulate.log"
+exit
+INFO: [Common 17-206] Exiting Vivado at Mon Jun  2 20:04:26 2025...

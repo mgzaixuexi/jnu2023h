@@ -43,7 +43,7 @@ parameter  CNT_MAX = 20'd200_0000;      //100MHz时钟下计数20ms
 
 //wire define 
 wire             rst_n          ;  // 复位，低有效
-wire             locked         ;  //PLL时钟锁定信号
+// wire             locked         ;  //PLL时钟锁定信号
 
 // wire             clk_25m        ;  //25MHz时钟
 // wire             clk_25m_deg120 ;  //相位偏移120的25MHz时钟
@@ -55,7 +55,7 @@ wire    [7:0]    rd_data2        ;  //ROM读出的数据
 // wire             key_freq_filter;  //频率控制按键消抖后的按键值
 
 //通过系统复位信号和PLL时钟锁定信号来产生一个新的复位信号
-assign   rst_n = sys_rst_n & locked;
+assign   rst_n = sys_rst_n ;
 
 
 // //PLL IP核

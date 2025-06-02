@@ -1,0 +1,16 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Mon Jun  2 20:03:37 2025
+# Process ID: 8600
+# Current directory: C:/Users/sb/Desktop/git/jnu2023h
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent2288 C:\Users\sb\Desktop\git\jnu2023h\jnu2023h.xpr
+# Log file: C:/Users/sb/Desktop/git/jnu2023h/vivado.log
+# Journal file: C:/Users/sb/Desktop/git/jnu2023h\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project C:/Users/sb/Desktop/git/jnu2023h/jnu2023h.xpr
+update_compile_order -fileset sources_1
+launch_simulation
+launch_simulation

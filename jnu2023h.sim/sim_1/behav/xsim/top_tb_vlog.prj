@@ -11,7 +11,7 @@ verilog xil_defaultlib  --include "../../../../jnu2023h.gen/sources_1/ip/clk_wiz
 "../../../../code/ram_wr_ctrl.v" \
 "../../../../code/top.v" \
 "../../../../code/wave_freq.v" \
-"../../../../code/sim/top_tb.v" \
+"../../../../code/sim/top_tb2.v" \
 
 # compile glbl module
 verilog xil_defaultlib "glbl.v"

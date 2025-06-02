@@ -91,7 +91,7 @@ integer i;
 
 initial begin
     // 读取数据文件（注意文件格式）
-    $readmemb("D:/vivado/project/ti/jnu2023_test/code/sim/sine_wave_5kHz_unsigned.txt", mem);
+    $readmemb("C:/Users/sb/Desktop/git/jnu2023h/code/sim/sine_wave_5kHz_unsigned.txt", mem);
 
     // 等待系统初始化完成
     wait(sys_rst_n == 1);

@@ -22,7 +22,7 @@
 
 module wave_freq
     #(
-    parameter   addr_20k = 128   ,  //20kHZ频点位置
+    parameter   addr_20k = 10   ,  //20kHZ频点位置
     parameter   addr_100k   = 640, //100kHZ频点位置
 	parameter 	compare_num1 = 16,//比较阈值，待定
 	parameter 	compare_num2 = 16,//比较阈值，待定
