@@ -30,3 +30,4 @@ run 35 ms
 run 20 ms
 run 20 ms
 update_compile_order -fileset sources_1
+close_sim

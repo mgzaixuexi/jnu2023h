@@ -28,7 +28,7 @@ module da_wave_send(
     
     input [5:0] freq_select, //频率选择寄存器（1表示5kHZ 2表示10kHZ 以此类推）（注意不能为0）
     input wave_select,  //波形选择寄存器（0输出正弦波 1输出三角波）
-    input [5:0]phase_select, //相位寄存器（0表示5° 1表示10°以此类推）
+    input phase_select, //相位寄存器（输入1表示相位差5°）
     //读rom
     input        [7:0]    rd_data        , //ROM读出的数据
     output  reg  [9:0]    rd_addr        , //读ROM地址
@@ -41,12 +41,14 @@ module da_wave_send(
 //波形调节控制
 parameter  sine_wave_addr     = 9'd0  ; // 正弦波起始位置 
 parameter  triangle_wave_addr   = 9'd500; // 三角波起始位置  
-reg flag1=0;
-reg flag2=0;
+reg flag1=1;
 
 reg    [5:0]     freq_adj           ;   //频率调节参数寄存器
 reg    [5:0]     freq_cnt           ;   //频率调节计数器
 
+reg    [2:0]     phase_cnt;  //相位调节计数器
+
+// reg [5:0] phase_select; //相位寄存器（0表示5° 1表示10°以此类推）
 
 //100M时钟下，信号的点数为500，输出的信号频率范围为：参数0对应输出200kHz波形频率  参数40对应5kHz
 parameter  FREQ_ADJ = 6'd40;          
@@ -76,6 +78,23 @@ always @(posedge clk or negedge rst_n) begin
         freq_cnt <= freq_cnt + 8'd1;
 end
 
+//相位调节计数器
+always @(posedge clk or negedge rst_n) begin
+    if(rst_n == 1'b0)
+        phase_cnt <= 0;
+    else if(phase_select)
+    begin
+        flag1 <= 0;
+        phase_cnt <= 3'd7;  //相位实现：360/5=72 500/72=7 7个点对应5°
+    end
+    else
+    begin
+        phase_cnt <= phase_cnt-1;
+        if(phase_cnt==0) flag1 <= 1;
+    end
+end
+
+
 //读ROM地址
 always @(posedge clk or negedge rst_n) begin
     if(rst_n == 1'b0)
@@ -89,24 +108,13 @@ always @(posedge clk or negedge rst_n) begin
                     else 
                         rd_addr <= rd_addr+10'd1;
                 end
-                else
-                begin 
-                    //相位实现：360/5=72 500/72=7 7个点对应5°
-                    rd_addr <= sine_wave_addr+phase_select*7;
-                    flag1=1;
-                end
             end
             2'd1: begin//读取三角波
-                if((rd_addr >= triangle_wave_addr) && (rd_addr <= triangle_wave_addr+10'd499)&&(flag2==1)) begin
+                if((rd_addr >= triangle_wave_addr) && (rd_addr <= triangle_wave_addr+10'd499)&&(flag1==1)) begin
                     if(rd_addr == triangle_wave_addr+10'd499) 
                         rd_addr <= triangle_wave_addr; 
                     else 
                         rd_addr <= rd_addr+10'd1;  
-                end
-                else  
-                begin
-                    rd_addr <= triangle_wave_addr+phase_select*7;
-                    flag2=1;
                 end
             end
             default: begin
@@ -115,11 +123,6 @@ always @(posedge clk or negedge rst_n) begin
                         rd_addr <= sine_wave_addr;
                     else 
                         rd_addr <= rd_addr+10'd1; 
-                end
-                else 
-                begin 
-                    rd_addr <= sine_wave_addr+phase_select*7;
-                    flag1=1;
                 end
             end
         endcase

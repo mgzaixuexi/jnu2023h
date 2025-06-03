@@ -55,8 +55,8 @@ wire             wave_select1    ;  //波形控制参数
 wire             wave_select2    ;  //波形控制参数
 wire [7:0]       freq_select1    ;  //频率控制参数
 wire [7:0]       freq_select2    ;  //频率控制参数
-wire [5:0]       phase_select1;   //相位控制
-wire [5:0]       phase_select2;   //相位控制
+// wire [5:0]       phase_select1;   //相位控制
+// wire [5:0]       phase_select2;   //相位控制
 wire [10:0]       mix_signal;  //混合信号
 
 
@@ -66,8 +66,8 @@ assign  ad_oe_1 =  1'b0;
 assign  ad_oe_2 =  1'b0;
 assign  ad_clk_1 = clk_640k;
 assign  ad_clk_2 = clk_640k;
-assign phase_select1=0;
-assign phase_select2=0;
+// assign phase_select1=0;
+// assign phase_select2=0;
 
 //PLL IP核
  clk_wiz_0 u_clk_wiz_0(
@@ -231,6 +231,8 @@ wave_freq u_wave_freq
     .wave_vaild(wave_vaild)//数据有效信号，高有效
     );
 
+
+
 dds u_dds(
     .sys_clk(clk_50m),  //系统时钟
     .sys_rst_n(rst_n&wave_vaild),  //系统复位，低电平有效
@@ -238,8 +240,8 @@ dds u_dds(
     .wave_select2(~wave_select2),  //波形控制
     .freq_select1(freq_select1),  //频率控制
     .freq_select2(freq_select2),  //频率控制
-    .phase_select1(phase_select1),   //相位控制
-    .phase_select2(phase_select2),   //相位控制
+    .phase_select1(key_value[1]),   //按键相位控制
+    .phase_select2(key_value[2]),   //按键相位控制
     .clk_100m(clk_100m),    //100M时钟
     //DA芯片接口
     .da_clk_1(da_clk_1),  //DAC驱动时钟

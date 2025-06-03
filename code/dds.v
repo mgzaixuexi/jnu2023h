@@ -27,8 +27,8 @@ module dds(
     input                 wave_select2    ,  //波形控制
     input     [7:0]       freq_select1    ,  //频率控制
     input     [7:0]       freq_select2    ,  //频率控制
-    input [5:0]          phase_select1,   //相位控制
-    input [5:0]          phase_select2,   //相位控制
+    input           phase_select1,   //相位控制
+    input           phase_select2,   //相位控制
     input                clk_100m,    //100M时钟
     //DA芯片接口
     output                da_clk_1      ,  //DAC驱动时钟
