@@ -118,7 +118,7 @@ reg        fft_s_config_tvalid;
 wire       fft_s_config_tready;
 
 wire 		fft_shutdown;
-wire		s_axis_config_tvalid;//fft数据有效信号
+wire		fft_valid;//fft重置信号
 
 //fft控制模块，按键启动fft，ram写入完成后关闭
 fft_ctrl u_fft_ctrl(
@@ -126,16 +126,16 @@ fft_ctrl u_fft_ctrl(
 	.rst_n(rst_n),
 	.key(key_value[0]),
 	.fft_shutdown(fft_shutdown),
-	.fft_valid(s_axis_config_tvalid)
+	.fft_valid(fft_valid)
 );
 	
 
 // FFT IP核实例化
 xfft_0 u_fft(
     .aclk(clk_640k),
-    .aresetn(rst_n),
+    .aresetn(fft_valid&rst_n),//fft重置信号
     .s_axis_config_tdata(8'd1),
-    .s_axis_config_tvalid(s_axis_config_tvalid),//fft数据有效信号
+    .s_axis_config_tvalid(1'b1),
     .s_axis_config_tready(fft_s_config_tready),  // 悬空
 	
     .s_axis_data_tdata({16'h0000, fft_s_data_tdata}), // 虚部为0，实部为输入数据

@@ -36,7 +36,7 @@ module ram_wr_ctrl
 );
 
 assign wr_data = data_modulus;
-assign wr_en = (wr_addr >= addr_300k + 1'b1) ? 1'b0 : 1'b1;//ram写使能，写完之前都置高
+assign wr_en = (wr_addr >= addr_300k + 3) ? 1'b0 : 1'b1;//ram写使能，写完之前都置高
 assign fft_shutdown = wr_done;
 
 always @(posedge clk or negedge rst_n)
@@ -44,7 +44,7 @@ always @(posedge clk or negedge rst_n)
 		wr_addr <= 0;
 		wr_done <= 0;
 	end
-	else if (wr_addr >= addr_300k + 1'b1)begin//ram写完了，拉高写完成信号
+	else if (wr_addr >= addr_300k + 3)begin//ram写完了，拉高写完成信号
 		wr_done <= 1;
 		wr_addr <= wr_addr;
 	end
