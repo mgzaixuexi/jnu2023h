@@ -5,6 +5,7 @@ module top_tb;
 // 输入信号
 reg          sys_clk;
 reg          clk_1m;
+reg 		 clk_2m;
 reg          clk_640k;
 reg          sys_rst_n;
 reg  [3:0]   key;
@@ -27,6 +28,7 @@ wire [7:0]   da_data_2;
 localparam SYS_CLK_PERIOD = 20;  // 50MHz时钟，周期20ns
 localparam SYS_CLK_PERIOD2 = 1000;  // 1MHz时钟，周期1us
 localparam SYS_CLK_PERIOD3 = 1562;  // 640KHz时钟，周期1562.5ns，误差为懒得算。
+localparam SYS_CLK_PERIOD4 = 500;   // 2MHz时钟，周期0.5us
 
 // 实例化顶层模块
 top u_top(
@@ -59,16 +61,21 @@ initial begin
     clk_1m = 1'b0;
     forever #(SYS_CLK_PERIOD2/2) clk_1m = ~clk_1m;
 end
-// 生成1m时钟
+// 生成640k时钟
 initial begin
     clk_640k = 1'b0;
     forever #(SYS_CLK_PERIOD3/2) clk_640k = ~clk_640k;
+end
+// 生成2m时钟
+initial begin
+    clk_2m = 1'b0;
+    forever #(SYS_CLK_PERIOD4/2) clk_2m = ~clk_2m;
 end
 
 // 初始化与复位
 initial begin
     sys_rst_n = 0;
-    key = 4'b0000;
+    key = 4'b1111;
     ad_data_1 = 10'b0;
     ad_data_2 = 10'b0;
     ad_otr_1 = 0;
@@ -80,24 +87,26 @@ initial begin
     
     // 模拟按键按下（启动信号）
     #200;
-    key = 4'b0001;  // 按下第一个按键
+    key = 4'b1110;  // 按下第一个按键
     #100;
-    key = 4'b0000;
+    key = 4'b1111;
 end
 
 // 读取文件中的数据
 reg [15:0] mem [0:4095];
 integer i;
+integer j;
 
 initial begin
     // 读取数据文件（注意文件格式）
-    $readmemb("C:/Users/sb/Desktop/git/jnu2023h/code/sim/sine_wave_5kHz_unsigned.txt", mem);
+    $readmemb("E:/project/jnu2023h/code/sim/sine_wave_5kHz_unsigned.txt", mem);
 
     // 等待系统初始化完成
     wait(sys_rst_n == 1);
     #100;    // 发�?�数据（AXI Stream协议�?
     // 数据发送
-    i = 0;  // 显式初始化
+    i = 0; 	// 显式初始化
+	j = 0;
     // forever begin
     //     @(posedge clk_1m);  // 等待真实的1MHz时钟
     //     //ad_data_1 = mem[i];
@@ -115,9 +124,13 @@ initial begin
 
 
 
-    // 等待FFT处理完成（根据实际情况调整延时）
-    #2000000;
-	$finish;    
+    // 等待输出，测试启动键
+	#1_000_000;
+	wait(da_data_1!=8'h7f)
+	#1_000_000;
+	key = 4'b1110;  // 按下第一个按键，记得改防抖模块的参数
+    #100;
+    key = 4'b1111;
 
     
 end
@@ -140,12 +153,29 @@ always @(posedge clk_1m or negedge sys_rst_n) begin
     end
 end
 
+// 在2MHz时钟下更新j
+always @(posedge clk_2m or negedge sys_rst_n) begin
+    if (!sys_rst_n) begin
+        j <= 0;
+    end else begin
+        j <= (j < 4002) ? j + 1 : 0;
+    end
+end
+
 // 在640kHz时钟下读取数据
 always @(posedge clk_640k or negedge sys_rst_n) begin
     if (!sys_rst_n) begin
         ad_data_1 <= 10'b0;
     end else begin
         ad_data_1 <= mem[i][9:0]; // 确保只取低10位
+    end
+end
+
+always @(posedge clk_640k or negedge sys_rst_n) begin
+    if (!sys_rst_n) begin
+        ad_data_2 <= 10'b0;
+    end else begin
+        ad_data_2 <= mem[j][9:0]; // 确保只取低10位
     end
 end
 endmodule

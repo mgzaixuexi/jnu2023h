@@ -3,7 +3,7 @@ module fft_ctrl(
 	input 	rst_n,
 	input 	key,
 	input 	fft_shutdown,
-	output 	fft_valid
+	output 	reg fft_valid
 );
 
 reg key_d0;
@@ -27,10 +27,10 @@ end
 always @(posedge clk or negedge rst_n)
 	if(~rst_n)
 		fft_valid <= 0;
-	else if(start)//按键按下，使输入数据有效
+	else if(start)//按键按下，启动fft
 		fft_valid <= 1;
 	else if(fft_shutdown)
-		fft_valid <= 0;//ram写入完成，无效输入数据
+		fft_valid <= 0;//ram写入完成，重置fft
 	else 
 		fft_valid <= fft_valid;
 

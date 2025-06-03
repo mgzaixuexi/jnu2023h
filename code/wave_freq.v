@@ -58,7 +58,7 @@ reg [15:0] waveA_data;//波Afft数据
 reg [15:0] waveB_data;//波Bfft数据
 reg [15:0] waveA_3ndata;//波A三倍频附近的最大值
 reg [15:0] waveB_3ndata;//波B三倍频附近的最大值
-reg [2:0] flag;
+reg [4:0] flag;
 reg key_d0;
 reg key_d1;
 reg [11:0] waveA_freq_t;//波Afft数据地址
@@ -160,7 +160,38 @@ always @(posedge clk_180deg or negedge  rst_n)
 						rd_addr <= addr_20k-1;
 						end
 			find		:begin
-						if(rd_addr < addr_100k )//查找20kHz到100kHz的fft数据
+						//新代码，由于仿真fft数据不理想进行了修改，历遍了两次fft数据
+						if((rd_addr < addr_100k) && (flag[3]==0))//查找20kHz到100kHz的fft数据，第一遍
+							rd_addr <= rd_addr + 1'b1;
+						else if((rd_addr >= addr_100k) && (flag[3]==0)) begin
+						    rd_addr <= addr_20k - 1;
+						    flag[3] <= 1;
+						    end
+						if((rd_addr < addr_100k) && (flag[3]==1))//查找20kHz到100kHz的fft数据，第二遍
+							rd_addr <= rd_addr + 1'b1;
+						else if((rd_addr >= addr_100k) && (flag[3]==1)) begin
+						    rd_addr <= waveA_freq_tx3 - 1;
+						    flag[4] <= 1;
+						    end
+						if((rd_data > waveB_data) && (flag[3]==0))begin//找峰值
+							waveB_data <= rd_data;
+							waveB_freq_t <= rd_addr;
+							end
+						if((rd_data > waveA_data) && (rd_addr != waveB_freq_t) && (flag[3]==1))begin//找第二大峰值
+							waveA_data <= rd_data;
+							waveA_freq_t <= rd_addr;
+							end
+						if(flag[4] == 1)begin//查找完后设置波A三倍频地址，拉高flag0
+							flag[0] <= 1;
+								if(waveA_freq_t > waveB_freq_t)begin
+								waveA_freq_t <= waveB_freq_t;
+								waveB_freq_t <= waveA_freq_t;
+								waveA_data <= waveB_data;
+								waveB_data <= waveA_data;
+								end
+							end
+						//旧代码，有时间的话也用来上板试试（这个用的资源更少）
+						/* if(rd_addr < addr_100k )//查找20kHz到100kHz的fft数据
 							rd_addr <= rd_addr + 1'b1;
 						else begin//查找完后设置波A三倍频地址，拉高flag0
 						    rd_addr <= waveA_freq_tx3 - 1;
@@ -168,6 +199,7 @@ always @(posedge clk_180deg or negedge  rst_n)
 						    end
 						//若出现比已储存值更大的值，位移寄存数据和地址，确保找到两个峰值	
 						if((rd_data > waveB_data) || (rd_data > waveA_data))begin
+							waveB_data <= rd_data;
 						    waveA_data <= waveB_data;
 						    waveB_freq_t <= rd_addr;
 						    waveA_freq_t <= waveB_freq_t;
@@ -177,7 +209,7 @@ always @(posedge clk_180deg or negedge  rst_n)
 							waveA_data <= waveA_data;
 							waveB_freq_t <= waveB_freq_t;
 							waveB_data <= waveB_data;
-						    end
+						    end */
 						end
 			overlap		:begin
 						//波B的值必须大于波A的值，大出一定的阈值
