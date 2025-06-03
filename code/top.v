@@ -69,14 +69,6 @@ assign  ad_clk_2 = clk_640k;
 assign phase_select1=0;
 assign phase_select2=0;
 
-key_debounce u_key_debounce(
-    . clk(sys_clk),
-    . rst_n(sys_rst_n),
-    .  key(key),
-    . key_value(key_value)
-);
-
-
 //PLL IP核
  clk_wiz_0 u_clk_wiz_0(
     .clk_out1 (clk_100m       ),  
@@ -87,10 +79,17 @@ key_debounce u_key_debounce(
     .clk_in1  (sys_clk        )   
     );    
 
+//按键防抖模块
+key_debounce u_key_debounce(
+    . clk(clk_50m),
+    . rst_n(sys_rst_n),
+    .  key(key),
+    . key_value(key_value)
+);
 	
 //fft时钟生成
 fft_clk u_ftt_clk(
-    .sys_clk(sys_clk),
+    .sys_clk(clk_50m),
     .clk_32m(clk_32m),
     .rst_n(rst_n),
     .clk_640k(clk_640k),
@@ -117,12 +116,26 @@ wire        fft_m_data_tvalid;
 reg [7:0]  fft_s_config_tdata;
 reg        fft_s_config_tvalid;
 wire       fft_s_config_tready;
+
+wire 		fft_shutdown;
+wire		s_axis_config_tvalid;//fft数据有效信号
+
+//fft控制模块，按键启动fft，ram写入完成后关闭
+fft_ctrl u_fft_ctrl(
+	.clk(clk_50m),
+	.rst_n(rst_n),
+	.key(key_value[0]),
+	.fft_shutdown(fft_shutdown),
+	.fft_valid(s_axis_config_tvalid)
+);
+	
+
 // FFT IP核实例化
 xfft_0 u_fft(
     .aclk(clk_640k),
     .aresetn(rst_n),
     .s_axis_config_tdata(8'd1),
-    .s_axis_config_tvalid(1'b1),
+    .s_axis_config_tvalid(s_axis_config_tvalid),//fft数据有效信号
     .s_axis_config_tready(fft_s_config_tready),  // 悬空
 	
     .s_axis_data_tdata({16'h0000, fft_s_data_tdata}), // 虚部为0，实部为输入数据
@@ -148,7 +161,6 @@ xfft_0 u_fft(
     .event_data_out_channel_halt()
 );
 
-wire fft_en;
 wire [15:0] data_modulus;
 wire [15:0] wr_data;
 wire [11:0] wr_addr;
@@ -180,14 +192,14 @@ data_modulus u_data_modulus(
 						
 ram_wr_ctrl u_ram_wr_ctrl(
 	.clk(clk_640k),//fft时钟
-	.rst_n(rst_n),//复位，接（rst_n&key）key是启动键
+	.rst_n(rst_n & key_value[0]),//复位，接（rst_n&key）key是启动键
 	.data_modulus(data_modulus),    
     .data_valid(data_valid),
 	.wr_data(wr_data),
 	.wr_addr(wr_addr),
 	.wr_en(wr_en),
 	.wr_done(wr_done),
-	.fft_shutdown(fft_en)//关闭fft，高有效
+	.fft_shutdown(fft_shutdown)//关闭fft，高有效
 );
 
 wire [11:0] rd_addr;
@@ -209,7 +221,7 @@ wave_freq u_wave_freq
     .clk(clk_50m),
     .rst_n(rst_n),
     .en(wr_done),//使能，上升沿有效，fft取模数据写入ram完成再拉高
-	.key(1'b1),//启动按键，重置识别
+	.key(key_value[0]),//启动按键，重置识别
     .rd_data(rd_data),//fft取模数据
     .rd_addr(rd_addr),//ram地址
     .waveA_freq(freq_select1),//波A频率，要乘5000
