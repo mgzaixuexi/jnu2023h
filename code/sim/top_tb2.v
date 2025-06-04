@@ -5,7 +5,7 @@ module top_tb;
 // 输入信号
 reg          sys_clk;
 reg          clk_1m;
-reg 		 clk_2m;
+reg 		 clk_5m;
 reg          clk_640k;
 reg          sys_rst_n;
 reg  [3:0]   key;
@@ -28,7 +28,7 @@ wire [7:0]   da_data_2;
 localparam SYS_CLK_PERIOD = 20;  // 50MHz时钟，周期20ns
 localparam SYS_CLK_PERIOD2 = 1000;  // 1MHz时钟，周期1us
 localparam SYS_CLK_PERIOD3 = 1562;  // 640KHz时钟，周期1562.5ns，误差为懒得算。
-localparam SYS_CLK_PERIOD4 = 500;   // 2MHz时钟，周期0.5us
+localparam SYS_CLK_PERIOD4 = 200;   // 5MHz时钟，周期0.2us
 
 // 实例化顶层模块
 top u_top(
@@ -66,10 +66,10 @@ initial begin
     clk_640k = 1'b0;
     forever #(SYS_CLK_PERIOD3/2) clk_640k = ~clk_640k;
 end
-// 生成2m时钟
+// 生成5m时钟
 initial begin
-    clk_2m = 1'b0;
-    forever #(SYS_CLK_PERIOD4/2) clk_2m = ~clk_2m;
+    clk_5m = 1'b0;
+    forever #(SYS_CLK_PERIOD4/2) clk_5m = ~clk_5m;
 end
 
 // 初始化与复位
@@ -90,10 +90,18 @@ initial begin
     key = 4'b1110;  // 按下第一个按键
     #100;
     key = 4'b1111;
+	    // 等待输出，测试启动键
+	#1_000_000;
+	wait(da_data_1!=8'h7f)
+	#1_000_000;
+	key = 4'b1110;  // 按下第一个按键，记得改防抖模块的参数
+    #100;
+    key = 4'b1111;
 end
 
 // 读取文件中的数据
 reg [15:0] mem [0:4095];
+reg [15:0] memt [0:4095];
 integer i;
 integer j;
 
@@ -106,7 +114,6 @@ initial begin
     #100;    // 发�?�数据（AXI Stream协议�?
     // 数据发送
     i = 0; 	// 显式初始化
-	j = 0;
     // forever begin
     //     @(posedge clk_1m);  // 等待真实的1MHz时钟
     //     //ad_data_1 = mem[i];
@@ -122,19 +129,19 @@ initial begin
     // end
 
 
-
-
-    // 等待输出，测试启动键
-	#1_000_000;
-	wait(da_data_1!=8'h7f)
-	#1_000_000;
-	key = 4'b1110;  // 按下第一个按键，记得改防抖模块的参数
-    #100;
-    key = 4'b1111;
-
     
 end
 
+initial begin
+    // 读取数据文件（注意文件格式）
+    $readmemb("E:/project/jnu2023h/code/sim/triangle_wave_5kHz_unsigned.txt", memt);
+
+    // 等待系统初始化完成
+    wait(sys_rst_n == 1);
+    #100;    // 发�?�数据（AXI Stream协议�?
+    // 数据发送
+	j = 0;	// 显式初始化
+end
 // 监控输出信号
 // initial begin
 //     $timeformat(-9, 2, " ns", 10);
@@ -144,8 +151,8 @@ end
 //     #100000000; // 100ms仿真时间
 //     $finish;
 // end
-// 在1MHz时钟下更新i
-always @(posedge clk_1m or negedge sys_rst_n) begin
+// 在5MHz时钟下更新i
+always @(posedge clk_5m or negedge sys_rst_n) begin
     if (!sys_rst_n) begin
         i <= 0;
     end else begin
@@ -153,8 +160,8 @@ always @(posedge clk_1m or negedge sys_rst_n) begin
     end
 end
 
-// 在2MHz时钟下更新j
-always @(posedge clk_2m or negedge sys_rst_n) begin
+// 在1MHz时钟下更新j
+always @(posedge clk_1m or negedge sys_rst_n) begin
     if (!sys_rst_n) begin
         j <= 0;
     end else begin
@@ -175,7 +182,7 @@ always @(posedge clk_640k or negedge sys_rst_n) begin
     if (!sys_rst_n) begin
         ad_data_2 <= 10'b0;
     end else begin
-        ad_data_2 <= mem[j][9:0]; // 确保只取低10位
+        ad_data_2 <= memt[j][9:0]; // 确保只取低10位
     end
 end
 endmodule
