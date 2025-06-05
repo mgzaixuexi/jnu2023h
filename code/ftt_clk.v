@@ -67,13 +67,13 @@ reg clk_640k_t;
 always @(posedge clk_32m or negedge rst_n)begin
     if(~rst_n)
     clk_cnt<=0;
-    else if(clk_cnt==50-1)
+    else if(clk_cnt==25-1)
     clk_cnt<=0;
     else clk_cnt<=clk_cnt+1'b1;
     
     if(~rst_n)
     clk_640k_t<=0;
-    else if(clk_cnt==50-1)
+    else if(clk_cnt==25-1)
     clk_640k_t<=~clk_640k_t;
     else clk_640k_t<=clk_640k_t;
     
