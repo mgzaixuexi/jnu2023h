@@ -81,7 +81,7 @@ end
 //相位调节计数器
 always @(posedge clk or negedge rst_n) begin
     if(rst_n == 1'b0)
-        phase_cnt <= 1;
+        phase_cnt <= 3'd0;
     else if(phase_select)
     begin
         flag1 <= 0;
@@ -89,8 +89,8 @@ always @(posedge clk or negedge rst_n) begin
     end
     else
     begin
-        phase_cnt <= phase_cnt-1;
-        if(phase_cnt==0) flag1 <= 1;
+        if(phase_cnt==0)flag1 <= 1;
+        else phase_cnt <= phase_cnt-1;
     end
 end
 
