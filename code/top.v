@@ -24,12 +24,12 @@ module top(
     input          sys_rst_n  ,  //系统复位
 	input	[3:0]  key        ,	 //按键输入
     //第一路ADC
-    input   [9:0]  ad_data_1  ,  //第一路ADC数据
+    input   [7:0]  ad_data_1  ,  //第一路ADC数据
     input          ad_otr_1   ,  //第一路ADC输入电压超过量程标志
     output         ad_clk_1   ,  //第一路ADC驱动时钟
     output         ad_oe_1    ,  //第一路ADC输出使能
     //第二路ADC
-    input   [9:0]  ad_data_2  ,  //第二路ADC数据
+    input   [7:0]  ad_data_2  ,  //第二路ADC数据
     input          ad_otr_2   ,  //第二路ADC输入电压超过量程标志
     output         ad_clk_2   ,  //第二路ADC驱动时钟
     output         ad_oe_2   ,    //第二路ADC输出使能
