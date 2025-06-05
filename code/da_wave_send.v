@@ -81,7 +81,7 @@ end
 //相位调节计数器
 always @(posedge clk or negedge rst_n) begin
     if(rst_n == 1'b0)
-        phase_cnt <= 0;
+        phase_cnt <= 1;
     else if(phase_select)
     begin
         flag1 <= 0;
@@ -101,21 +101,25 @@ always @(posedge clk or negedge rst_n) begin
         rd_addr <= 9'd0;
     else if(freq_cnt == freq_adj) begin
         case(wave_select)
-            2'd0: begin//读取正弦波
+            1'd0: begin//读取正弦波
                 if((rd_addr >= sine_wave_addr) && (rd_addr <= sine_wave_addr+10'd499) && (flag1==1)) begin
                     if(rd_addr == sine_wave_addr+10'd499)  
                         rd_addr <= sine_wave_addr;
                     else 
                         rd_addr <= rd_addr+10'd1;
                 end
+                else 
+                    rd_addr <= sine_wave_addr;
             end
-            2'd1: begin//读取三角波
+            1'd1: begin//读取三角波
                 if((rd_addr >= triangle_wave_addr) && (rd_addr <= triangle_wave_addr+10'd499)&&(flag1==1)) begin
                     if(rd_addr == triangle_wave_addr+10'd499) 
                         rd_addr <= triangle_wave_addr; 
                     else 
                         rd_addr <= rd_addr+10'd1;  
                 end
+                else 
+                    rd_addr <= triangle_wave_addr;
             end
             default: begin
                 if((rd_addr >= sine_wave_addr) && (rd_addr <= sine_wave_addr+10'd499)&&(flag1==1)) begin

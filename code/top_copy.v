@@ -231,7 +231,7 @@ ram_4096x16 u_ram_4096x16 (
 //     .wave_vaild(wave_vaild)//数据有效信号，高有效
 //     );
 
-assign wave_select1=1;
+assign wave_select1=0;
 assign wave_select2=1;
 assign freq_select1=8'd1;
 assign freq_select2=8'd2;
