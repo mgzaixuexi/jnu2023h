@@ -55,8 +55,8 @@ wire             wave_select1    ;  //波形控制参数
 wire             wave_select2    ;  //波形控制参数
 wire [7:0]       freq_select1    ;  //频率控制参数
 wire [7:0]       freq_select2    ;  //频率控制参数
-// wire [5:0]       phase_select1;   //相位控制
-// wire [5:0]       phase_select2;   //相位控制
+wire [5:0]       phase_select1;   //相位控制
+wire [5:0]       phase_select2;   //相位控制
 wire [10:0]       mix_signal;  //混合信号
 
 
@@ -231,7 +231,19 @@ wave_freq u_wave_freq
     .wave_vaild(wave_vaild)//数据有效信号，高有效
     );
 
+dds_ctrl u_dds_ctrl1(
+    . 	clk(clk_50m),
+	. 	rst_n(rst_n),
+	. 	key(key_value[1]),
+    .   phase_cnt(phase_select1)
+);
 
+dds_ctrl u_dds_ctrl2(
+    . 	clk(clk_50m),
+	. 	rst_n(rst_n),
+	. 	key(key_value[2]),
+    .   phase_cnt(phase_select2)
+);
 
 dds u_dds(
     .sys_clk(clk_50m),  //系统时钟
