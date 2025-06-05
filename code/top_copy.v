@@ -235,6 +235,7 @@ assign wave_select1=1;
 assign wave_select2=1;
 assign freq_select1=8'd1;
 assign freq_select2=8'd2;
+assign key_value=4'b1111;
 
 dds u_dds(
     .sys_clk(clk_50m),  //系统时钟
@@ -243,8 +244,8 @@ dds u_dds(
     .wave_select2(~wave_select2),  //波形控制
     .freq_select1(freq_select1),  //频率控制
     .freq_select2(freq_select2),  //频率控制
-    .phase_select1(key_value[1]),   //按键相位控制
-    .phase_select2(key_value[2]),   //按键相位控制
+    .phase_select1(~key_value[1]),   //按键相位控制
+    .phase_select2(~key_value[2]),   //按键相位控制
     .clk_100m(clk_100m),    //100M时钟
     //DA芯片接口
     .da_clk_1(da_clk_1),  //DAC驱动时钟
