@@ -23,8 +23,8 @@
 module key_debounce(
     input clk,
     input rst_n,
-    input [3:0] key,
-    output reg [3:0] key_value
+    input [2:0] key,
+    output reg [2:0] key_value
     );
     
 parameter waittime = 1_000_000;

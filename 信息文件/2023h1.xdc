@@ -1,0 +1,51 @@
+create_clock -period 20.000 -name sys_clk [get_ports sys_clk]
+
+set_property -dict {PACKAGE_PIN C2 IOSTANDARD LVCMOS33} [get_ports sys_clk]
+
+set_property -dict {PACKAGE_PIN AE21 IOSTANDARD LVCMOS33} [get_ports sys_rst_n]
+
+set_property -dict {PACKAGE_PIN AD19 IOSTANDARD LVCMOS33} [get_ports {key[0]}]
+set_property -dict {PACKAGE_PIN AF20 IOSTANDARD LVCMOS33} [get_ports {key[1]}]
+set_property -dict {PACKAGE_PIN AE20 IOSTANDARD LVCMOS33} [get_ports {key[2]}]
+
+#AD接口
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN B2} [get_ports {da_data_1[7]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN A2} [get_ports {da_data_1[6]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN C3} [get_ports {da_data_1[5]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN A3} [get_ports {da_data_1[4]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN B4} [get_ports {da_data_1[3]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN A4} [get_ports {da_data_1[2]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN B5} [get_ports {da_data_1[1]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN A5} [get_ports {da_data_1[0]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN B1} [get_ports da_clk_1]
+
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN F15} [get_ports {da_data_2[7]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN E16} [get_ports {da_data_2[6]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN D16} [get_ports {da_data_2[5]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN B17} [get_ports {da_data_2[4]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN A17} [get_ports {da_data_2[3]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN C17} [get_ports {da_data_2[2]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN A18} [get_ports {da_data_2[1]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN C19} [get_ports {da_data_2[0]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN G15} [get_ports da_clk_2]
+
+#DA接口
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN H26} [get_ports {ad_data_1[7]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN J25} [get_ports {ad_data_1[6]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN G26} [get_ports {ad_data_1[5]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN G25} [get_ports {ad_data_1[4]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN E25} [get_ports {ad_data_1[3]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN F25} [get_ports {ad_data_1[2]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN D25} [get_ports {ad_data_1[1]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN E26} [get_ports {ad_data_1[0]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN L25} [get_ports ad_clk_1]
+
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN U26} [get_ports {ad_data_2[7]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN U25} [get_ports {ad_data_2[6]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN R25} [get_ports {ad_data_2[5]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN T25} [get_ports {ad_data_2[4]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN P25} [get_ports {ad_data_2[3]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN R26} [get_ports {ad_data_2[2]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN N26} [get_ports {ad_data_2[1]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN P26} [get_ports {ad_data_2[0]}] 
+set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN Y25} [get_ports ad_clk_2]

@@ -22,7 +22,7 @@
 module top(
     input          sys_clk    ,  //系统时钟
     input          sys_rst_n  ,  //系统复位
-	input	[3:0]  key        ,	 //按键输入
+	input	[2:0]  key        ,	 //按键输入
     //第一路ADC
     input   [7:0]  ad_data_1  ,  //第一路ADC数据
     input          ad_otr_1   ,  //第一路ADC输入电压超过量程标志
@@ -34,7 +34,7 @@ module top(
     output         ad_clk_2   ,  //第二路ADC驱动时钟
     //output         ad_oe_2   ,    //第二路ADC输出使能
 
-	output [5:0] seg_sel,
+	output [4:0] seg_sel,
 	output [7:0] seg_led,
 
     //DA芯片接口
