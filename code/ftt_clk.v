@@ -85,7 +85,7 @@ end
    );
 
 // 分频计数器参数
-localparam DIVIDER = 50;    // 50MHz/1MHz = 50分频
+localparam DIVIDER = 25;    // 50MHz/1MHz = 50分频
 localparam HALF_DIV = DIVIDER/2; // 半周期计数
 
 // 分频计数器

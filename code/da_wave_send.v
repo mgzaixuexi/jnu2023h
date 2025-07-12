@@ -28,7 +28,7 @@ module da_wave_send(
     
     input [5:0] freq_select, //频率选择寄存器（1表示5kHZ 2表示10kHZ 以此类推）（注意不能为0）
     input wave_select,  //波形选择寄存器（0输出正弦波 1输出三角波）
-    input [5:0]phase_select, //相位寄存器（输入1表示相位差5°）
+    input phase_select, //相位寄存器（输入1表示相位差5°）
     //读rom
     input        [7:0]    rd_data        , //ROM读出的数据
     output  reg  [9:0]    rd_addr        , //读ROM地址
@@ -42,15 +42,11 @@ module da_wave_send(
 parameter  sine_wave_addr     = 9'd0  ; // 正弦波起始位置 
 parameter  triangle_wave_addr   = 9'd500; // 三角波起始位置  
 reg flag1=1;
-reg flag2=1;
 
 reg    [5:0]     freq_adj           ;   //频率调节参数寄存器
 reg    [5:0]     freq_cnt           ;   //频率调节计数器
 
-wire phase_ctrl1;
-wire phase_ctrl2;
-
-reg    [7:0]     phase_cnt;  //相位调节计数器
+reg    [2:0]     phase_cnt;  //相位调节计数器
 
 // reg [5:0] phase_select; //相位寄存器（0表示5° 1表示10°以此类推）
 
@@ -61,8 +57,7 @@ parameter  FREQ_ADJ = 6'd40;
 //而DA实际上在da_clk的上升沿锁存数据,所以时钟取反,这样clk的下降沿相当于da_clk的上升沿
 assign  da_clk  = ~clk   ;
 assign  da_data = rd_data;  //将读到的ROM数据赋值给DA数据端口
-assign phase_ctrl1 = (phase_select>=0)?1:0;  //检测是否相位需要控制
-assign phase_ctrl2 = flag2 & phase_ctrl1;  //检测控制的标志位flag2
+
 
 //通过频率选择寄存器的值来选择相应的频率调节参数
 always @(posedge clk or negedge rst_n) begin
@@ -86,19 +81,15 @@ end
 //相位调节计数器
 always @(posedge clk or negedge rst_n) begin
     if(rst_n == 1'b0)
-        phase_cnt <= 0;
-    else if(phase_ctrl2)
+        phase_cnt <= 3'd0;
+    else if(phase_select)
     begin
         flag1 <= 0;
-        phase_cnt <= 7*phase_select;  //相位实现：360/5=72 500/72=7 7个点对应5°
+        phase_cnt <= 3'd7;  //相位实现：360/5=72 500/72=7 7个点对应5°
     end
     else
     begin
-        if(phase_cnt==0)
-        begin
-            flag2 <= 0;
-            flag1 <= 1;
-        end
+        if(phase_cnt==0)flag1 <= 1;
         else phase_cnt <= phase_cnt-1;
     end
 end
