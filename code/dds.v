@@ -27,9 +27,9 @@ module dds(
     input                 wave_select2    ,  //波形控制
     input     [7:0]       freq_select1    ,  //频率控制
     input     [7:0]       freq_select2    ,  //频率控制
-    input           phase_select1,   //相位控制
-    input           phase_select2,   //相位控制
-    input                clk_100m,    //100M时钟
+    input      [5:0]     phase_select1,   //相位控制
+    input      [5:0]      phase_select2,   //相位控制
+    input                clk_20_48m,    //40.96M时钟
     //DA芯片接口
     output                da_clk_1      ,  //DAC驱动时钟
     output                da_clk_2      ,  //DAC驱动时钟
@@ -40,6 +40,14 @@ module dds(
 
 //parameter define
 parameter  CNT_MAX = 20'd200_0000;      //100MHz时钟下计数20ms
+// wire clk_81_92;
+// wire clk_81_92_out;
+// assign clk_81_92 = clk_40_96m + clk_40_96m_deg90;
+
+// BUFG BUFG_inst1 (
+//       .O(clk_81_92_out), // 1-bit output: Clock output
+//       .I(clk_81_92)  // 1-bit input: Clock input
+//    );
 
 //wire define 
 wire             rst_n          ;  // 复位，低有效
@@ -47,9 +55,9 @@ wire             rst_n          ;  // 复位，低有效
 
 // wire             clk_25m        ;  //25MHz时钟
 // wire             clk_25m_deg120 ;  //相位偏移120的25MHz时钟
-wire    [9:0]    rd_addr1        ;  //ROM读地址
+wire    [12:0]    rd_addr1        ;  //ROM读地址
 wire    [7:0]    rd_data1        ;  //ROM读出的数据
-wire    [9:0]    rd_addr2        ;  //ROM读地址
+wire    [12:0]    rd_addr2        ;  //ROM读地址
 wire    [7:0]    rd_data2        ;  //ROM读出的数据
 wire clk_20_48m_t;
 // wire             key_wave_filter;  //波形控制按键消抖后的按键值
@@ -72,38 +80,22 @@ assign   rst_n = sys_rst_n ;
       .I(clk_20_48m)  // 1-bit input: Clock input
    );
 //ROM存储波形
-<<<<<<< Updated upstream
-rom_1000x8b u_rom_1000x8b1 (
-    .clka     (clk_100m),  // input wire clka
-    .addra    (rd_addr1 ),  // input wire [9 : 0] addra
-=======
 rom_8192x8b u_rom_8192x8b1 (
     .clka     (clk_20_48m_t),  // input wire clka
     .addra    (rd_addr1 ),  // input wire [14 : 0] addra
->>>>>>> Stashed changes
     .douta    (rd_data1 )   // output wire [7 : 0] douta
     );
 
 //ROM存储波形
-<<<<<<< Updated upstream
-rom_1000x8b u_rom_1000x8b2 (
-    .clka     (clk_100m),  // input wire clka
-    .addra    (rd_addr2 ),  // input wire [9 : 0] addra
-=======
 rom_8192x8b u_rom_8192x8b2 (
     .clka     (clk_20_48m_t),  // input wire clka
     .addra    (rd_addr2 ),  // input wire [14 : 0] addra
->>>>>>> Stashed changes
     .douta    (rd_data2 )   // output wire [7 : 0] douta
     );
 
 //DA数据发送
 da_wave_send u_da_wave_send1(
-<<<<<<< Updated upstream
-    .clk              (clk_100m       ),
-=======
     .clk              (clk_20_48m_t       ),
->>>>>>> Stashed changes
     .rst_n            (rst_n          ),
     .wave_select     (wave_select1),
     .freq_select     (freq_select1),
@@ -116,11 +108,7 @@ da_wave_send u_da_wave_send1(
 
     //DA数据发送
 da_wave_send u_da_wave_send2(
-<<<<<<< Updated upstream
-    .clk              (clk_100m       ),
-=======
     .clk              (clk_20_48m_t       ),
->>>>>>> Stashed changes
     .rst_n            (rst_n          ),
     .wave_select     (wave_select2),
     .freq_select     (freq_select2),
