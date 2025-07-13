@@ -2,7 +2,7 @@
 
 module dds_tb();
 
-parameter CLK_PERIOD = 20; //时钟周期 20ns  50MHz
+parameter CLK_PERIOD = 50; //时钟周期 20ns  50MHz  50ns  20MHz
 //reg define
  reg sys_clk;
  reg sys_rst_n;
@@ -11,12 +11,12 @@ parameter CLK_PERIOD = 20; //时钟周期 20ns  50MHz
  reg                da_clk         ; //DAC驱动时钟
  wire       [7:0]    in_da_data1         ; //输入波形  
  wire       [7:0]    in_da_data2         ; //输入波形  
- reg [5:0] freq_select1; //频率选择寄存器（1表示5kHZ 2表示10kHZ 以此类推）（注意不能为0）
+ reg [7:0] freq_select1; //频率选择寄存器（1表示5kHZ 2表示10kHZ 以此类推）（注意不能为0）
  reg wave_select1;  //波形选择寄存器（0输出正弦波 1输出三角波）
- reg phase_select1; //相位寄存器（0表示5° 1表示10°以此类推）
- reg [5:0] freq_select2; //频率选择寄存器（1表示5kHZ 2表示10kHZ 以此类推）（注意不能为0）
+ reg [5:0]phase_select1; //相位寄存器（0表示5° 1表示10°以此类推）
+ reg [7:0] freq_select2; //频率选择寄存器（1表示5kHZ 2表示10kHZ 以此类推）（注意不能为0）
  reg wave_select2;  //波形选择寄存器（0输出正弦波 1输出三角波）
- reg phase_select2; //相位寄存器（0表示5° 1表示10°以此类推）
+ reg [5:0]phase_select2; //相位寄存器（0表示5° 1表示10°以此类推）
 
 
  //信号初始化
@@ -32,14 +32,7 @@ parameter CLK_PERIOD = 20; //时钟周期 20ns  50MHz
  clk_100m=1'b0;
  #200
  sys_rst_n = 1'b1;
-#500000
- phase_select1=1;
-#2000
- phase_select1=0;
-#500000
-  phase_select1=1;
-#2000
- phase_select1=0;
+
 
  end
 
@@ -57,7 +50,7 @@ dds u_dds(
     .freq_select2(freq_select2),  //频率控制
     .phase_select1(phase_select1),   //相位控制
     .phase_select2(phase_select2),   //相位控制
-    .clk_100m(clk_100m),    //100M时钟
+    .clk_20_48m(sys_clk),    //100M时钟
     //DA芯片接口
     .da_clk_1(da_clk_1),  //DAC驱动时钟
     .da_clk_2(da_clk_2),  //DAC驱动时钟

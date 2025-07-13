@@ -82,6 +82,16 @@ assign  ad_clk_2 = clk_640k;
     .clk_in1  (sys_clk        )   
     );    
 
+<<<<<<< Updated upstream
+=======
+ clk_wiz_1 u_clk_wiz_1
+   (
+    .clk_out1(clk_20_48m),     // output clk_out1
+    .reset(~sys_rst_n), // input reset
+    .locked(),       // output locked
+    .clk_in1(clk_32m));      // input clk_in1
+
+>>>>>>> Stashed changes
 //按键防抖模块
 key_debounce u_key_debounce(
     . clk(clk_50m),
@@ -243,9 +253,15 @@ dds u_dds(
     .wave_select2(~wave_select2),  //波形控制
     .freq_select1(freq_select1),  //频率控制
     .freq_select2(freq_select2),  //频率控制
+<<<<<<< Updated upstream
     .phase_select1(~key_value[1]),   //按键相位控制
     .phase_select2(~key_value[2]),   //按键相位控制
     .clk_100m(clk_100m),    //100M时钟
+=======
+    .phase_select1(phase_select1),   //按键相位控制
+    .phase_select2(phase_select2),   //按键相位控制
+    .clk_20_48m(clk_20_48m),    //100M时钟
+>>>>>>> Stashed changes
     //DA芯片接口
     .da_clk_1(da_clk_1),  //DAC驱动时钟
     .da_clk_2(da_clk_2),  //DAC驱动时钟
@@ -256,8 +272,8 @@ dds u_dds(
 seg_led seg_led_inst(
     .sys_clk(sys_clk),//绯荤粺鏃堕挓
 	.sys_rst_n(sys_rst_n),
-	.num1(freq_select2),//鎺req_select1锛屾垨鑰呰鏄痺aveA_freq
-	.num2(freq_select1),//鎺req_select2锛屾垨鑰呰鏄痺aveB_freq
+	.num1(phase_select2),//鎺req_select1锛屾垨鑰呰鏄痺aveA_freq
+	.num2(phase_select1),//鎺req_select2锛屾垨鑰呰鏄痺aveB_freq
 	.num3(wave_select1),//鎺r_done
 	.seg_sel(seg_sel),
 	.seg_led(seg_led)

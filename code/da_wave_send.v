@@ -20,7 +20,11 @@
 
 
 module da_wave_send(
+<<<<<<< Updated upstream
     input                 clk            ,
+=======
+    input                 clk            , //20.48MHz
+>>>>>>> Stashed changes
     input                 rst_n          , //复位信号，低电平有效
     // //消抖后的按键值
     // input                 key_wave_filter, //波形控制按键消抖后的按键值
@@ -39,9 +43,15 @@ module da_wave_send(
 
 //parameter
 //波形调节控制
+<<<<<<< Updated upstream
 parameter  sine_wave_addr     = 9'd0  ; // 正弦波起始位置 
 parameter  triangle_wave_addr   = 9'd500; // 三角波起始位置  
 reg flag1=1;
+=======
+parameter  sine_wave_addr     = 13'd0  ; // 正弦波起始位置 
+parameter  triangle_wave_addr   = 13'd4096; // 三角波起始位置  
+reg flag1;
+>>>>>>> Stashed changes
 
 reg    [5:0]     freq_adj           ;   //频率调节参数寄存器
 reg    [5:0]     freq_cnt           ;   //频率调节计数器
@@ -59,6 +69,7 @@ assign  da_clk  = ~clk   ;
 assign  da_data = rd_data;  //将读到的ROM数据赋值给DA数据端口
 
 
+<<<<<<< Updated upstream
 //通过频率选择寄存器的值来选择相应的频率调节参数
 always @(posedge clk or negedge rst_n) begin
     if(rst_n == 1'b0)
@@ -67,6 +78,17 @@ always @(posedge clk or negedge rst_n) begin
         freq_adj <= FREQ_ADJ/freq_select;
     end
 end
+=======
+
+// //通过频率选择寄存器的值来选择相应的频率调节参数
+// always @(posedge clk or negedge rst_n) begin
+//     if(rst_n == 1'b0)
+//       freq_adj <= 8'd0;
+//     else begin
+//         freq_adj <= FREQ_ADJ/freq_select;
+//     end
+// end
+>>>>>>> Stashed changes
 
 //频率调节计数器
 always @(posedge clk or negedge rst_n) begin
@@ -98,6 +120,7 @@ end
 //读ROM地址
 always @(posedge clk or negedge rst_n) begin
     if(rst_n == 1'b0)
+<<<<<<< Updated upstream
         rd_addr <= 9'd0;
     else if(freq_cnt == freq_adj) begin
         case(wave_select)
@@ -120,13 +143,50 @@ always @(posedge clk or negedge rst_n) begin
                 end
                 else 
                     rd_addr <= triangle_wave_addr;
+=======
+    begin
+        rd_addr <= 13'd0;
+        flag1<=0;
+    end
+    else begin
+        case(wave_select)
+            1'd0: begin//读取正弦波
+                if((rd_addr >= sine_wave_addr )&& (flag1==1)) begin
+                    if(rd_addr >= sine_wave_addr + 13'd4095 - freq_select)  
+                        rd_addr <= sine_wave_addr;
+                    else 
+                        rd_addr <= rd_addr+freq_select;
+                end
+                else 
+                begin
+                    rd_addr <= sine_wave_addr+13'd57*phase_select;
+                    flag1 <= 1;
+                end
+            end
+            1'd1: begin//读取三角波
+                if((rd_addr >= triangle_wave_addr) && (flag1==1))begin
+                    if(rd_addr >= triangle_wave_addr+13'd4095 - freq_select)
+                        rd_addr <= triangle_wave_addr; 
+                    else 
+                        rd_addr <= rd_addr+freq_select;  
+                end
+                else 
+                begin
+                    rd_addr <= triangle_wave_addr+13'd57*phase_select;
+                    flag1<=1;
+                end
+>>>>>>> Stashed changes
             end
             default: begin
                 if((rd_addr >= sine_wave_addr) && (rd_addr <= sine_wave_addr+10'd499)&&(flag1==1)) begin
                     if(rd_addr == sine_wave_addr+10'd499)
                         rd_addr <= sine_wave_addr;
                     else 
+<<<<<<< Updated upstream
                         rd_addr <= rd_addr+10'd1; 
+=======
+                        rd_addr <= rd_addr+freq_select; 
+>>>>>>> Stashed changes
                 end
             end
         endcase

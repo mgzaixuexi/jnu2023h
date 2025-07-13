@@ -51,6 +51,7 @@ wire    [9:0]    rd_addr1        ;  //ROM读地址
 wire    [7:0]    rd_data1        ;  //ROM读出的数据
 wire    [9:0]    rd_addr2        ;  //ROM读地址
 wire    [7:0]    rd_data2        ;  //ROM读出的数据
+wire clk_20_48m_t;
 // wire             key_wave_filter;  //波形控制按键消抖后的按键值
 // wire             key_freq_filter;  //频率控制按键消抖后的按键值
 
@@ -66,24 +67,43 @@ assign   rst_n = sys_rst_n ;
 //     .locked   (locked         ),  
 //     .clk_in1  (sys_clk        )   
 //     );
-    
+    BUFG BUFG_inst1 (
+      .O(clk_20_48m_t), // 1-bit output: Clock output
+      .I(clk_20_48m)  // 1-bit input: Clock input
+   );
 //ROM存储波形
+<<<<<<< Updated upstream
 rom_1000x8b u_rom_1000x8b1 (
     .clka     (clk_100m),  // input wire clka
     .addra    (rd_addr1 ),  // input wire [9 : 0] addra
+=======
+rom_8192x8b u_rom_8192x8b1 (
+    .clka     (clk_20_48m_t),  // input wire clka
+    .addra    (rd_addr1 ),  // input wire [14 : 0] addra
+>>>>>>> Stashed changes
     .douta    (rd_data1 )   // output wire [7 : 0] douta
     );
 
 //ROM存储波形
+<<<<<<< Updated upstream
 rom_1000x8b u_rom_1000x8b2 (
     .clka     (clk_100m),  // input wire clka
     .addra    (rd_addr2 ),  // input wire [9 : 0] addra
+=======
+rom_8192x8b u_rom_8192x8b2 (
+    .clka     (clk_20_48m_t),  // input wire clka
+    .addra    (rd_addr2 ),  // input wire [14 : 0] addra
+>>>>>>> Stashed changes
     .douta    (rd_data2 )   // output wire [7 : 0] douta
     );
 
 //DA数据发送
 da_wave_send u_da_wave_send1(
+<<<<<<< Updated upstream
     .clk              (clk_100m       ),
+=======
+    .clk              (clk_20_48m_t       ),
+>>>>>>> Stashed changes
     .rst_n            (rst_n          ),
     .wave_select     (wave_select1),
     .freq_select     (freq_select1),
@@ -96,7 +116,11 @@ da_wave_send u_da_wave_send1(
 
     //DA数据发送
 da_wave_send u_da_wave_send2(
+<<<<<<< Updated upstream
     .clk              (clk_100m       ),
+=======
+    .clk              (clk_20_48m_t       ),
+>>>>>>> Stashed changes
     .rst_n            (rst_n          ),
     .wave_select     (wave_select2),
     .freq_select     (freq_select2),
